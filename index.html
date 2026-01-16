@@ -386,13 +386,12 @@
                         </div>
                         <div class="flex items-start gap-2">
                             <span class="material-symbols-outlined text-sm mt-1">call</span>
-                            <p>Sđt: 0376508233</p>
+                            <p>Sđt: 0376 508 233</p>
                         </div>
                         </div>
 
                         <div class="rounded-xl overflow-hidden h-64 border border-gold/20">
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d483.8992339068079!2d105.86730665045992!3d20.32591043570151!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1svi!2s!4v1768558875966!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                        </div>
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d890.6069453646508!2d105.86734383956147!3d20.3259023772411!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31367f31a18261b3%3A0xa2a4c28fe0d08df7!2zVsOibiBC4buTbmcsIEdpYSBQaMawxqFuZywgR2lhIFZp4buFbiwgTmluaCBCw6xuaCwgVmnhu4d0IE5hbQ!5e1!3m2!1svi!2s!4v1768564121611!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>                        </div>
                         
                         <a href="https://maps.google.com" target="_blank" class="mt-4 inline-flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-widest text-primary hover:text-gold transition-colors">
                         Mở bằng Google Maps <span class="material-symbols-outlined text-sm">open_in_new</span>
@@ -413,22 +412,16 @@
                         <div class="mb-6 flex-1 text-sm text-[#89616b] dark:text-gray-400">
                         <div class="flex items-start gap-2 mb-2">
                             <span class="material-symbols-outlined text-sm mt-1">location_on</span>
-                            <p>Địa chỉ: Thôn X, Xã Y, Huyện Z, Tỉnh E (Ví dụ: Thái Bình)</p>
+                            <p>Địa chỉ: Số Nhà 19, Đường Trương Huy Dực, Phường Quang Trung(Bỉm Sơn cũ),Thanh Hóa</p>
                         </div>
                         <div class="flex items-start gap-2">
                             <span class="material-symbols-outlined text-sm mt-1">call</span>
-                            <p>Hotline: 0987 654 321</p>
+                            <p>Hotline: 0374 589 233</p>
                         </div>
                         </div>
 
                         <div class="rounded-xl overflow-hidden h-64 border border-gold/20">
-                        <iframe 
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3723.835382346746!2d105.78658141540243!3d21.039274792794354!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjHCsDAyJzIxLjQiTiAxMDXCsDQ3JzIwLjAiRQ!5e0!3m2!1svi!2svn!4v1625000000000!5m2!1svi!2svn" 
-                            class="w-full h-full" 
-                            style="border:0;" 
-                            allowfullscreen="" 
-                            loading="lazy">
-                        </iframe>
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3561.898892718006!2d105.85530267500455!3d20.07920668134309!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3136615f4e364adf%3A0x34ce571088978172!2zMTkgUC4gVHLGsMahbmcgSHV5IEThu7FjLCBQLiBRdWFuZyBUcnVuZywgQuG7iW0gU8ahbiwgVGhhbmggSMOzYSwgVmnhu4d0IE5hbQ!5e1!3m2!1svi!2s!4v1768563992227!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                         </div>
 
                         <a href="https://maps.google.com" target="_blank" class="mt-4 inline-flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-widest text-primary hover:text-gold transition-colors">
@@ -477,6 +470,28 @@
             </div>
          </section>
       </main>
+      <div class="fixed bottom-6 left-6 z-50">
+         <button id="music-control" class="group relative flex items-center justify-center w-12 h-12 bg-white dark:bg-background-dark border-2 border-gold rounded-full shadow-xl overflow-hidden">
+            <span id="music-icon" class="material-symbols-outlined text-primary animate-spin-slow">music_note</span>
+         <audio id="bg-music" loop muted autoplay>
+            <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
+         </audio>
+
+         </button>
+      </div>
+
+      <style>
+         @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+         }
+         .animate-spin-slow {
+            animation: spin-slow 4s linear infinite;
+         }
+         .music-paused {
+            animation-play-state: paused !important;
+         }
+      </style>      
       <!-- Footer -->
       <footer
          class="py-12 border-t border-[#f4f0f1] dark:border-white/10 text-center">

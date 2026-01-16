@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
-    
+
     // --- PHẦN 1: ĐẾM NGƯỢC ---
     const countDownDate = new Date("Jan 28, 2026 10:30:00").getTime();
-    
+
     const elDays = document.getElementById("days");
     const elHours = document.getElementById("hours");
     const elMinutes = document.getElementById("minutes");
@@ -34,11 +34,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const modal = document.getElementById('wedding-modal');
     const modalContent = document.getElementById('modal-content');
 
-    window.openModal = function(type) {
+    window.openModal = function (type) {
         if (!modal || !modalContent) return;
-        
+
         modal.classList.remove('hidden');
-        
+
         if (type === 'join') {
             modalContent.innerHTML = `
                 <div class="relative py-6 px-4 animate-in fade-in zoom-in duration-300">
@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     };
 
-    window.closeModal = function() {
+    window.closeModal = function () {
         if (modal) modal.classList.add('hidden');
     };
 
@@ -96,22 +96,66 @@ document.addEventListener('DOMContentLoaded', function () {
         // Lưu ý: Các key 'status' và 'time' phải khớp với {{status}} và {{time}} trong Template
         const templateParams = {
             status: statusValue,
-            time: new Date().toLocaleString('vi-VN', { 
-                hour: '2-digit', 
-                minute: '2-digit', 
-                second: '2-digit', 
-                day: '2-digit', 
-                month: '2-digit', 
-                year: 'numeric' 
+            time: new Date().toLocaleString('vi-VN', {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
             })
         };
 
         // Thay thế 'YOUR_SERVICE_ID' và 'YOUR_TEMPLATE_ID' bằng ID thật của bạn
         emailjs.send('service_1orvapl', 'template_23gvezz', templateParams)
-            .then(function(response) {
-            console.log('EMAIL GỬI THÀNH CÔNG!', response.status, response.text);
-            }, function(error) {
-            console.error('LỖI GỬI EMAIL:', error);
+            .then(function (response) {
+                console.log('EMAIL GỬI THÀNH CÔNG!', response.status, response.text);
+            }, function (error) {
+                console.error('LỖI GỬI EMAIL:', error);
             });
     }
+
+    const musicBtn = document.getElementById('music-control');
+    const musicIcon = document.getElementById('music-icon');
+    const audio = document.getElementById('bg-music');
+    let isPlaying = false;
+
+    // Thử autoplay muted trước
+    window.addEventListener('load', () => {
+        audio.play()
+            .then(() => {
+                // Nếu chạy được → mở tiếng
+                audio.muted = false;
+                isPlaying = true;
+                musicIcon.innerText = 'music_note';
+            })
+            .catch(() => {
+                console.log("Autoplay bị chặn → chờ người dùng chạm vào web");
+            });
+    });
+
+    // Nút bật/tắt nhạc
+    musicBtn.addEventListener('click', () => {
+        if (isPlaying) {
+            audio.pause();
+            musicIcon.classList.add('music-paused');
+            musicIcon.innerText = 'music_off';
+        } else {
+            audio.play();
+            audio.muted = false;
+            musicIcon.classList.remove('music-paused');
+            musicIcon.innerText = 'music_note';
+        }
+        isPlaying = !isPlaying;
+    });
+
+    // Fallback: nếu trình duyệt chặn hoàn toàn → chạm bất kỳ để phát
+    document.body.addEventListener('click', () => {
+        if (!isPlaying) {
+            audio.play();
+            audio.muted = false;
+            isPlaying = true;
+            musicIcon.innerText = 'music_note';
+        }
+    }, { once: true });
 });
