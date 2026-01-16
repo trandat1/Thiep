@@ -115,47 +115,113 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
 
-    const musicBtn = document.getElementById('music-control');
-    const musicIcon = document.getElementById('music-icon');
-    const audio = document.getElementById('bg-music');
-    let isPlaying = false;
+    // --- PHẦN 3: NHẠC NỀN (BỎ QUA NẾU KHÔNG CẦN) ---
+    // const musicBtn = document.getElementById('music-control');
+    // const musicIcon = document.getElementById('music-icon');
+    // const audio = document.getElementById('bg-music');
+    // let isPlaying = false;
 
-    // Thử autoplay muted trước
-    window.addEventListener('load', () => {
-        audio.play()
-            .then(() => {
-                // Nếu chạy được → mở tiếng
-                audio.muted = false;
-                isPlaying = true;
-                musicIcon.innerText = 'music_note';
-            })
-            .catch(() => {
-                console.log("Autoplay bị chặn → chờ người dùng chạm vào web");
-            });
-    });
+    // // Thử autoplay muted trước
+    // window.addEventListener('load', () => {
+    //     audio.play()
+    //         .then(() => {
+    //             // Nếu chạy được → mở tiếng
+    //             audio.muted = false;
+    //             isPlaying = true;
+    //             musicIcon.innerText = 'music_note';
+    //         })
+    //         .catch(() => {
+    //             console.log("Autoplay bị chặn → chờ người dùng chạm vào web");
+    //         });
+    // });
 
-    // Nút bật/tắt nhạc
-    musicBtn.addEventListener('click', () => {
-        if (isPlaying) {
-            audio.pause();
-            musicIcon.classList.add('music-paused');
-            musicIcon.innerText = 'music_off';
+    // // Nút bật/tắt nhạc
+    // musicBtn.addEventListener('click', () => {
+    //     if (isPlaying) {
+    //         audio.pause();
+    //         musicIcon.classList.add('music-paused');
+    //         musicIcon.innerText = 'music_off';
+    //     } else {
+    //         audio.play();
+    //         audio.muted = false;
+    //         musicIcon.classList.remove('music-paused');
+    //         musicIcon.innerText = 'music_note';
+    //     }
+    //     isPlaying = !isPlaying;
+    // });
+
+    // // Fallback: nếu trình duyệt chặn hoàn toàn → chạm bất kỳ để phát
+    // document.body.addEventListener('click', () => {
+    //     if (!isPlaying) {
+    //         audio.play();
+    //         audio.muted = false;
+    //         isPlaying = true;
+    //         musicIcon.innerText = 'music_note';
+    //     }
+    // }, { once: true });
+
+    //Menu mobile toggle
+
+    const menuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuIcon = document.getElementById('menu-icon');
+    const mobileLinks = document.querySelectorAll('.mobile-link');
+    const header = document.getElementById('header');
+
+    function updateMenuTop() {
+        // Tính height header động
+        const headerHeight = header.offsetHeight;
+        const menuContent = mobileMenu.querySelector('.relative');  // Phần content bên trong
+        if (menuContent) {
+            menuContent.style.paddingTop = `${headerHeight}px`;
+        }
+        console.log('Header height updated:', headerHeight);  // Debug
+    }
+
+    function toggleMenu() {
+        const isOpen = mobileMenu.classList.contains('open');
+        console.log('Toggle menu:', isOpen ? 'Closing' : 'Opening');  // Debug
+
+        if (!isOpen) {
+            // Mở menu
+            mobileMenu.classList.add('open');
+            menuIcon.innerText = 'close';
+            document.body.classList.add('menu-open');
+            updateMenuTop();  // Update top động
         } else {
-            audio.play();
-            audio.muted = false;
-            musicIcon.classList.remove('music-paused');
-            musicIcon.innerText = 'music_note';
+            // Đóng menu
+            mobileMenu.classList.remove('open');
+            menuIcon.innerText = 'menu';
+            document.body.classList.remove('menu-open');
+            console.log('Menu closed, body unlocked');  // Debug
         }
-        isPlaying = !isPlaying;
+    }
+
+    // Mở/đóng khi bấm nút Menu
+    menuButton.addEventListener('click', toggleMenu);
+
+    // Tự động đóng khi bấm link (và scroll đến section)
+    mobileLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();  // Ngăn default scroll jump tạm thời
+            const href = link.getAttribute('href');
+            setTimeout(() => {
+                document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
+            }, 300);  // Delay để menu đóng mượt
+            toggleMenu();  // Đóng menu
+        });
     });
 
-    // Fallback: nếu trình duyệt chặn hoàn toàn → chạm bất kỳ để phát
-    document.body.addEventListener('click', () => {
-        if (!isPlaying) {
-            audio.play();
-            audio.muted = false;
-            isPlaying = true;
-            musicIcon.innerText = 'music_note';
+    // Đóng khi click outside (trên backdrop)
+    mobileMenu.addEventListener('click', (e) => {
+        if (e.target === mobileMenu) {
+            toggleMenu();
         }
-    }, { once: true });
+    });
+
+    // Update height khi resize (ví dụ: orientation change trên mobile)
+    window.addEventListener('resize', updateMenuTop);
+
+    // Khởi tạo
+    updateMenuTop();  // Set initial top
 });

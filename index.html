@@ -50,6 +50,27 @@
             }
         </script>
         <style>
+            body.menu-open {
+               overflow: hidden;
+               position: fixed;  /* Fix cho iOS: Lock fixed elements */
+               width: 100%;
+            }
+
+            #mobile-menu {
+               transform: translateX(100%);  /* Ẩn ban đầu bằng transform (mượt hơn hidden) */
+            }
+
+            #mobile-menu.open {
+               transform: translateX(0);  /* Mở bằng slide-in */
+               display:block;
+            }
+
+            /* Fix cho iOS Safari fixed elements */
+            @supports (-webkit-touch-callout: none) {
+               body.menu-open {
+                  height: 100vh;
+               }
+            }         
             .gold-text {
             background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
             -webkit-background-clip: text;
@@ -62,46 +83,44 @@
             }
         </style>
    </head>
-   <body
-      class="bg-background-light dark:bg-background-dark font-display text-[#181113] dark:text-white transition-colors duration-300">
+   <body class="bg-background-light dark:bg-background-dark font-display text-[#181113] dark:text-white transition-colors duration-300">
       <!-- Top Navigation -->
-      <header
-         class="fixed top-0 left-0 right-0 z-50 bg-white/90 dark:bg-background-dark/90 backdrop-blur-md border-b border-solid border-[#f4f0f1] dark:border-white/10 px-6 lg:px-40 py-3">
-         <div
-            class="max-w-[1200px] mx-auto flex items-center justify-between whitespace-nowrap">
-            <div
-               class="flex items-center gap-4 text-[#181113] dark:text-white">
+      <!-- Top Navigation -->
+      <header class="fixed top-0 left-0 right-0 z-40 bg-white/90 dark:bg-background-dark/90 backdrop-blur-md border-b border-solid border-[#f4f0f1] dark:border-white/10 px-6 lg:px-40 py-3 transition-all duration-300" id="header">  <!-- Thêm id="header" và z-40 (thấp hơn menu) -->
+         <div class="max-w-[1200px] mx-auto flex items-center justify-between whitespace-nowrap">
+            <div class="flex items-center gap-4 text-[#181113] dark:text-white">
                <div class="size-6 text-primary">
                   <span class="material-symbols-outlined">favorite</span>
                </div>
-               <h2
-                  class="text-lg font-bold leading-tight tracking-[-0.015em] font-serif italic">Đ
-                  &amp; T
-               </h2>
+               <h2 class="text-lg font-bold leading-tight tracking-[-0.015em] font-serif italic">Đ &amp; T</h2>
             </div>
-            <div
-               class="hidden md:flex flex-1 justify-end gap-8 items-center">
-               <nav class="flex items-center gap-9">
-                  <a
-                     class="text-sm font-medium hover:text-primary transition-colors"
-                     href="#thoigian">Thời Gian</a>
-                  <a
-                     class="text-sm font-medium hover:text-primary transition-colors"
-                     href="#gioithieu">Giới Thiệu</a>
-                  <a
-                     class="text-sm font-medium hover:text-primary transition-colors"
-                     href="#vitri">Vị trí</a>
-                  <a
-                     class="text-sm font-medium hover:text-primary transition-colors"
-                     href="#hinhanh">Hình Ảnh</a>
-               </nav>
-            </div>
-            <!-- Mobile Menu Icon -->
-            <div class="md:hidden">
-               <span class="material-symbols-outlined">menu</span>
+
+            <nav class="hidden md:flex items-center gap-9">
+               <a class="text-sm font-medium hover:text-primary transition-colors" href="#thoigian">Thời Gian</a>
+               <a class="text-sm font-medium hover:text-primary transition-colors" href="#gioithieu">Giới Thiệu</a>
+               <a class="text-sm font-medium hover:text-primary transition-colors" href="#vitri">Vị trí</a>
+               <a class="text-sm font-medium hover:text-primary transition-colors" href="#hinhanh">Hình Ảnh</a>
+            </nav>
+
+            <div class="md:hidden flex items-center">
+               <button id="mobile-menu-button" class="text-[#181113] dark:text-white p-1">
+                  <span class="material-symbols-outlined text-3xl" id="menu-icon">menu</span>
+               </button>
             </div>
          </div>
       </header>
+
+      <!-- Mobile Menu (thêm class cho dynamic top và transition) -->
+      <div id="mobile-menu" class="fixed inset-0 top-[0px] z-50 bg-white dark:bg-background-dark hidden md:hidden flex-col items-center pt-0 gap-8 shadow-2xl transition-all duration-300 ease-in-out overflow-y-auto">  <!-- Thay top-[57px] bằng top-[0px] động, thêm pt-0 và overflow-y-auto -->
+         <!-- Backdrop overlay (thêm div này để cover header nếu cần) -->
+         <div class="absolute inset-0 bg-black/20 backdrop-blur-sm z-0"></div>
+         <div class="relative z-10 flex-1 flex flex-col items-center justify-center pt-20 gap-8 w-full">  <!-- Thêm pt-20 tương đương height header, nhưng sẽ dynamic bằng JS -->
+            <a class="mobile-link text-xl font-semibold text-[#181113] dark:text-white hover:text-primary transition-colors w-full text-center py-4" href="#thoigian">Thời Gian</a>
+            <a class="mobile-link text-xl font-semibold text-[#181113] dark:text-white hover:text-primary transition-colors w-full text-center py-4" href="#gioithieu">Giới Thiệu</a>
+            <a class="mobile-link text-xl font-semibold text-[#181113] dark:text-white hover:text-primary transition-colors w-full text-center py-4" href="#vitri">Vị trí</a>
+            <a class="mobile-link text-xl font-semibold text-[#181113] dark:text-white hover:text-primary transition-colors w-full text-center py-4" href="#hinhanh">Hình Ảnh</a>
+         </div>
+      </div>
       <main>
          <!-- Hero Section -->
          <section class="relative pt-16">
@@ -199,7 +218,7 @@
                         class="text-gold font-bold text-xs uppercase tracking-widest mb-4">Cô Dâu</p>
                      <p
                         class="text-[#89616b] dark:text-gray-400 text-sm leading-relaxed mb-4 italic">
-                        "Tôi không thể chờ đợi để bắt đầu cuộc sống vĩnh viễn của chúng tôi. Đạt đã là người bạn tốt nhất và tình yêu của cuộc đời tôi kể từ ngày chúng tôi gặp nhau ở Paris."
+                        "Tôi không thể chờ đợi để bắt đầu cuộc sống vĩnh viễn của chúng tôi. Đạt đã là người bạn tốt nhất và tình yêu của cuộc đời tôi kể từ ngày chúng tôi gặp nhau ở Hồ Tây."
                      </p>
                      <p
                         class="text-[#181113] dark:text-white/70 text-sm font-medium">Con của <br>Bố: Bùi Minh Xuân( Thức) <br> Mẹ: Lê Thị Tâm</p>
@@ -221,7 +240,7 @@
                         class="text-gold font-bold text-xs uppercase tracking-widest mb-4">Chú Rể</p>
                      <p
                         class="text-[#89616b] dark:text-gray-400 text-sm leading-relaxed mb-4 italic">
-                        "Tìm thấy Thao giống như tìm thấy mảnh ghép còn thiếu của tâm hồn tôi. Tôi rất vinh dự khi sắp được gọi cô ấy là vợ mình."
+                        "Tìm thấy Thảo giống như tìm thấy mảnh ghép còn thiếu của tâm hồn tôi. Tôi rất vinh dự khi sắp được gọi cô ấy là vợ mình."
                      </p>
                      <p
                         class="text-[#181113] dark:text-white/70 text-sm font-medium">Con của <br>Bố: Trần Văn Toàn <br> Mẹ: Nguyễn Thị Tuyết</p>
@@ -393,7 +412,7 @@
                         <div class="rounded-xl overflow-hidden h-64 border border-gold/20">
                         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d890.6069453646508!2d105.86734383956147!3d20.3259023772411!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31367f31a18261b3%3A0xa2a4c28fe0d08df7!2zVsOibiBC4buTbmcsIEdpYSBQaMawxqFuZywgR2lhIFZp4buFbiwgTmluaCBCw6xuaCwgVmnhu4d0IE5hbQ!5e1!3m2!1svi!2s!4v1768564121611!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>                        </div>
                         
-                        <a href="https://maps.google.com" target="_blank" class="mt-4 inline-flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-widest text-primary hover:text-gold transition-colors">
+                        <a href="https://maps.app.goo.gl/EmEeC9f4r3EpRkgbA" target="_blank" class="mt-4 inline-flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-widest text-primary hover:text-gold transition-colors">
                         Mở bằng Google Maps <span class="material-symbols-outlined text-sm">open_in_new</span>
                         </a>
                     </div>
@@ -424,7 +443,7 @@
                         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3561.898892718006!2d105.85530267500455!3d20.07920668134309!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3136615f4e364adf%3A0x34ce571088978172!2zMTkgUC4gVHLGsMahbmcgSHV5IEThu7FjLCBQLiBRdWFuZyBUcnVuZywgQuG7iW0gU8ahbiwgVGhhbmggSMOzYSwgVmnhu4d0IE5hbQ!5e1!3m2!1svi!2s!4v1768563992227!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                         </div>
 
-                        <a href="https://maps.google.com" target="_blank" class="mt-4 inline-flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-widest text-primary hover:text-gold transition-colors">
+                        <a href="https://maps.app.goo.gl/AcLTLZzGoFXqgG5E9" target="_blank" class="mt-4 inline-flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-widest text-primary hover:text-gold transition-colors">
                         Mở bằng Google Maps <span class="material-symbols-outlined text-sm">open_in_new</span>
                         </a>
                     </div>
@@ -470,7 +489,7 @@
             </div>
          </section>
       </main>
-      <div class="fixed bottom-6 left-6 z-50">
+      <!-- <div class="fixed bottom-6 left-6 z-50">
          <button id="music-control" class="group relative flex items-center justify-center w-12 h-12 bg-white dark:bg-background-dark border-2 border-gold rounded-full shadow-xl overflow-hidden">
             <span id="music-icon" class="material-symbols-outlined text-primary animate-spin-slow">music_note</span>
          <audio id="bg-music" loop muted autoplay>
@@ -491,7 +510,7 @@
          .music-paused {
             animation-play-state: paused !important;
          }
-      </style>      
+      </style>       -->
       <!-- Footer -->
       <footer
          class="py-12 border-t border-[#f4f0f1] dark:border-white/10 text-center">
