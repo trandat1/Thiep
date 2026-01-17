@@ -1,0 +1,164 @@
+body.menu-open {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+}
+
+#mobile-menu {
+    transform: translateX(100%);
+    transition: transform 0.6s ease-in-out; /* Làm menu mở chậm hơn chút */
+}
+
+#mobile-menu.open {
+    transform: translateX(0);
+    display: block;
+}
+
+/* Fix cho iOS Safari fixed elements */
+@supports (-webkit-touch-callout: none) {
+    body.menu-open {
+        height: 100vh;
+    }
+}
+
+/* --- HIỆU ỨNG REVEAL CHUNG (Cô dâu chú rể, Timeline) --- */
+.reveal {
+    opacity: 0;
+    /* Tăng từ 0.8s lên 1.5s để trượt chậm hơn */
+    transition: all 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
+}
+
+.reveal-left { transform: translateX(-60px); }
+.reveal-right { transform: translateX(60px); }
+.reveal-bottom { transform: translateY(60px); }
+.reveal-top { transform: translateY(-60px); }
+
+.reveal.active {
+    opacity: 1;
+    transform: translate(0, 0);
+}
+
+/* --- HIỆU ỨNG ZOOM (Đếm ngược) --- */
+.reveal-zoom {
+    opacity: 0;
+    transform: scale(0.7); 
+    /* Tăng lên 1.2s để các vòng tròn nở ra từ từ */
+    transition: all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.reveal-zoom.active {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Tăng độ trễ (delay) để các ô thời gian hiện ra cách nhau xa hơn */
+.delay-100 { transition-delay: 200ms; }
+.delay-200 { transition-delay: 500ms; }
+.delay-300 { transition-delay: 800ms; }
+.delay-400 { transition-delay: 1100ms; }
+
+/* --- DÒNG KẺ TIMELINE --- */
+.reveal-line {
+    transform-origin: top;
+    transform: scaleY(0);
+    /* 2 giây để dòng kẻ mọc xuống thật chậm */
+    transition: transform 2.5s ease-in-out; 
+}
+.reveal-line.active {
+    transform: scaleY(1);
+}
+
+/* --- HIỆU ỨNG THẢ RƠI (Gallery Ảnh) --- */
+.reveal-drop {
+    opacity: 0;
+    transform: translateY(-70px);
+    filter: blur(8px); /* Tăng độ mờ lúc ẩn */
+    /* Tăng lên 1.5s để ảnh rơi như đang trôi trong nước */
+    transition: all 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal-drop.active {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+}
+
+/* Tăng khoảng cách rơi của từng ảnh để tạo nhịp điệu chậm rãi */
+.delay-500 { transition-delay: 400ms; }
+.delay-700 { transition-delay: 900ms; }
+.delay-900 { transition-delay: 1400ms; }
+.delay-1100 { transition-delay: 1900ms; }
+
+
+
+
+/* --- HERO SECTION (Màn hình đầu tiên) --- */
+/* 1. Hiệu ứng phóng nền chậm */
+.animate-ken-burns {
+    animation: kenburns 25s ease-out forwards;
+}
+
+/* 2. Keyframes cho chữ hiện lên */
+@keyframes fadeInUpHero {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 3. Keyframes cho hiệu ứng lấp lánh Gold */
+@keyframes shine {
+    to { background-position: 200% center; }
+}
+
+/* 4. Class tổng hợp cho các thành phần chữ Hero */
+.animate-text-hero {
+    opacity: 0;
+    /* Sử dụng animation-fill-mode là forwards để giữ trạng thái hiện sau khi chạy xong */
+    animation: fadeInUpHero 2.0s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
+}
+
+/* 5. RIÊNG CHO H1: Gộp cả 2 hiệu ứng hiện hình và lấp lánh */
+h1.gold-text.gold-shimmer.animate-text-hero {
+    /* Quan trọng: Phải viết tên cả 2 animation cách nhau bằng dấu phẩy */
+    animation: 
+        fadeInUpHero 2.0s cubic-bezier(0.215, 0.61, 0.355, 1) forwards,
+        shine 5s linear infinite;
+    /* Chỉ định delay riêng cho H1 ở đây hoặc qua class delay bên dưới */
+}
+
+/* 6. Điều chỉnh Delay (Chậm rãi và sang trọng) */
+.hero-delay-1 { animation-delay: 0.5s; }
+.hero-delay-2 { animation-delay: 1.5s; }
+.hero-delay-3 { animation-delay: 2.5s; }
+.hero-delay-4 { animation-delay: 3.5s; }
+
+/* 7. Đảm bảo Gold Text hiển thị đúng */
+.gold-text {
+    background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block; /* Giúp background-clip chuẩn hơn */
+}
+
+@keyframes spin-slow {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+    .animate-spin-slow {
+    animation: spin-slow 4s linear infinite;
+    }
+    .music-paused {
+    animation-play-state: paused !important;
+}
+
+.floral-bg {
+    background-image: radial-gradient(#D4AF37 0.5px, transparent 0.5px);
+    background-size: 24px 24px;
+    opacity: 0.1;
+}

@@ -116,49 +116,92 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // --- PHẦN 3: NHẠC NỀN (BỎ QUA NẾU KHÔNG CẦN) ---
-    // const musicBtn = document.getElementById('music-control');
-    // const musicIcon = document.getElementById('music-icon');
-    // const audio = document.getElementById('bg-music');
-    // let isPlaying = false;
+    const xemBtn = document.getElementById('xem');
 
-    // // Thử autoplay muted trước
-    // window.addEventListener('load', () => {
-    //     audio.play()
-    //         .then(() => {
-    //             // Nếu chạy được → mở tiếng
-    //             audio.muted = false;
-    //             isPlaying = true;
-    //             musicIcon.innerText = 'music_note';
-    //         })
-    //         .catch(() => {
-    //             console.log("Autoplay bị chặn → chờ người dùng chạm vào web");
-    //         });
-    // });
+    const musicBtn = document.getElementById('music-control');
+    const musicIcon = document.getElementById('music-icon');
+    const audio = document.getElementById('bg-music');
 
-    // // Nút bật/tắt nhạc
-    // musicBtn.addEventListener('click', () => {
-    //     if (isPlaying) {
-    //         audio.pause();
-    //         musicIcon.classList.add('music-paused');
-    //         musicIcon.innerText = 'music_off';
-    //     } else {
-    //         audio.play();
-    //         audio.muted = false;
-    //         musicIcon.classList.remove('music-paused');
-    //         musicIcon.innerText = 'music_note';
-    //     }
-    //     isPlaying = !isPlaying;
-    // });
+    let isPlaying = false;
+    let autoScrollInterval = null;
 
-    // // Fallback: nếu trình duyệt chặn hoàn toàn → chạm bất kỳ để phát
-    // document.body.addEventListener('click', () => {
-    //     if (!isPlaying) {
-    //         audio.play();
-    //         audio.muted = false;
-    //         isPlaying = true;
-    //         musicIcon.innerText = 'music_note';
-    //     }
-    // }, { once: true });
+    // ===== HÀM PHÁT NHẠC =====
+    function playMusic() {
+        if (!isPlaying) {
+            audio.play();
+            audio.muted = false;
+
+            musicIcon.classList.remove('music-paused');
+            musicIcon.innerText = 'music_note';
+
+            isPlaying = true;
+        }
+    }
+
+    let autoScrollFrame = null;
+
+    function startAutoScroll(duration = 120000) {
+        const start = window.pageYOffset;
+        const end = document.body.scrollHeight - window.innerHeight;
+        const distance = end - start;
+
+        let startTime = null;
+
+        function easeOutCubic(t) {
+            return 1 - Math.pow(1 - t, 3);
+        }
+
+        function scrollStep(timestamp) {
+            if (!startTime) startTime = timestamp;
+
+            const progress = Math.min((timestamp - startTime) / duration, 1);
+            const eased = easeOutCubic(progress);
+
+            window.scrollTo(0, start + distance * eased);
+
+            if (progress < 1) {
+                autoScrollFrame = requestAnimationFrame(scrollStep);
+            }
+        }
+
+        autoScrollFrame = requestAnimationFrame(scrollStep);
+    }
+
+    // dừng scroll
+    function stopAutoScroll() {
+        if (autoScrollFrame) {
+            cancelAnimationFrame(autoScrollFrame);
+        }
+    }
+
+    ['touchstart', 'wheel', 'mousedown', 'keydown'].forEach(evt => {
+        window.addEventListener(evt, stopAutoScroll, { passive: true });
+    });
+
+    // ===== CLICK VÀO SPAN "Xem Thiệp" =====
+    xemBtn.addEventListener('click', () => {
+        playMusic();
+        startAutoScroll(120000); // 10 giây
+    });
+    // ===== NÚT BẬT/TẮT NHẠC CỦA BẠN =====
+    musicBtn.addEventListener('click', () => {
+        if (isPlaying) {
+            audio.pause();
+            musicIcon.classList.add('music-paused');
+            musicIcon.innerText = 'music_off';
+        } else {
+            audio.play();
+            audio.muted = false;
+            musicIcon.classList.remove('music-paused');
+            musicIcon.innerText = 'music_note';
+        }
+        isPlaying = !isPlaying;
+    });
+
+    // Fallback nếu trình duyệt chặn autoplay
+    document.body.addEventListener('click', () => {
+        playMusic();
+    }, { once: true });
 
     //Menu mobile toggle
 
@@ -224,4 +267,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Khởi tạo
     updateMenuTop();  // Set initial top
+
+    // Hiệu Ứng Cuộn Hiện Dần
+    const observerOptions = {
+            threshold: 0.2 // Kích hoạt khi phần tử hiện ra 15%
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        // Tìm tất cả các phần tử có class 'reveal' để theo dõi
+        const revealElements = document.querySelectorAll('.reveal');
+        revealElements.forEach(el => observer.observe(el));    
 });

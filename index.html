@@ -23,6 +23,7 @@
         </script>
 
         <script src="main.js"></script>
+        <link rel="stylesheet" href="style.css">
         <script id="tailwind-config">
             tailwind.config = {
                 darkMode: "class",
@@ -49,39 +50,6 @@
                 },
             }
         </script>
-        <style>
-            body.menu-open {
-               overflow: hidden;
-               position: fixed;  /* Fix cho iOS: Lock fixed elements */
-               width: 100%;
-            }
-
-            #mobile-menu {
-               transform: translateX(100%);  /* Ẩn ban đầu bằng transform (mượt hơn hidden) */
-            }
-
-            #mobile-menu.open {
-               transform: translateX(0);  /* Mở bằng slide-in */
-               display:block;
-            }
-
-            /* Fix cho iOS Safari fixed elements */
-            @supports (-webkit-touch-callout: none) {
-               body.menu-open {
-                  height: 100vh;
-               }
-            }         
-            .gold-text {
-            background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            }
-            .floral-bg {
-            background-image: radial-gradient(#D4AF37 0.5px, transparent 0.5px);
-            background-size: 24px 24px;
-            opacity: 0.1;
-            }
-        </style>
    </head>
    <body class="bg-background-light dark:bg-background-dark font-display text-[#181113] dark:text-white transition-colors duration-300">
       <!-- Top Navigation -->
@@ -125,33 +93,33 @@
          <!-- Hero Section -->
          <section class="relative pt-16">
             <div class="w-full h-[85vh] relative overflow-hidden">
-               <div
-                  class="absolute inset-0 bg-cover bg-center transition-transform duration-700 hover:scale-105"
-                  data-alt="romantic wedding photo of bride and groom in a garden"
+               <div class="absolute inset-0 bg-cover bg-center animate-ken-burns"
                   style='background-image: linear-gradient(rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.5) 100%), url("image/image_1.jpg");'>
                </div>
-               <div
-                  class="relative h-full flex flex-col items-center justify-center text-center px-4">
-                  <div class="space-y-4 animate-fade-in">
-                     <span
-                        class="text-white uppercase tracking-[0.3em] text-sm font-serif italic">Lễ Thành Hôn</span>
-                     <h1
-                        class="text-white text-6xl md:text-8xl font-serif italic gold-text py-2">
-                        Tiến Đạt &amp; Bùi Thảo
+
+               <div class="relative h-full flex flex-col items-center justify-center text-center px-4">
+                  <div class="space-y-4">
+                     <span class="block text-white uppercase tracking-[0.3em] text-sm font-serif italic animate-text-hero hero-delay-1">
+                        Lễ Thành Hôn
+                     </span>
+
+                     <h1 class="font-serif italic gold-text gold-shimmer animate-text-hero hero-delay-2 text-6xl md:text-8xl py-4">
+                        Tiến Đạt & Bùi Thảo
                      </h1>
-                     <div
-                        class="flex items-center justify-center gap-4 py-4">
+
+                     <div class="flex items-center justify-center gap-4 py-4 animate-text-hero hero-delay-3">
                         <div class="h-[1px] w-12 bg-white/50"></div>
-                        <h2
-                           class="text-white text-lg md:text-2xl font-light tracking-widest">28
-                           . 01 . 2026
+                        <h2 class="text-white text-lg md:text-2xl font-light tracking-widest">
+                           28 . 01 . 2026
                         </h2>
                         <div class="h-[1px] w-12 bg-white/50"></div>
                      </div>
-                     <button
-                        class="mx-auto flex min-w-[160px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-12 px-6 bg-white/10 backdrop-blur-md border border-white/30 text-white text-sm font-bold uppercase tracking-widest hover:bg-white hover:text-primary transition-all">
-                     <span>Xem Thiệp</span>
-                     </button>
+
+                     <div class="animate-text-hero hero-delay-4 pt-4">
+                        <button class="mx-auto flex min-w-[160px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-12 px-6 bg-white/10 backdrop-blur-md border border-white/30 text-white text-sm font-bold uppercase tracking-widest hover:bg-white hover:text-primary transition-all hover:scale-105 active:scale-95">
+                           <span id="xem">Xem Thiệp</span>
+                        </button>
+                     </div>
                   </div>
                </div>
             </div>
@@ -159,34 +127,37 @@
          <!-- Countdown Timer -->
          <section class="py-12 bg-cream dark:bg-background-dark/50 border-b border-[#D4AF37]/20" id="thoigian">
             <div class="max-w-[960px] mx-auto px-4">
-               <div class="text-center mb-8">
-                  <p class="text-gold font-serif italic text-xl">Đếm ngược tới ngày cưới</p>
+               <div class="text-center mb-8 reveal reveal-bottom">
+                     <p class="text-gold font-serif italic text-xl">Đếm ngược tới ngày cưới</p>
                </div>
                <div class="flex justify-center gap-4 md:gap-10">
-                  <div class="flex flex-col items-center gap-2 group">
-                     <div class="w-20 h-20 md:w-24 md:h-24 flex items-center justify-center rounded-full border-2 border-gold/30 bg-white dark:bg-white/5 shadow-sm group-hover:border-primary transition-colors">
-                        <p id="days" class="text-primary text-2xl md:text-3xl font-bold">00</p>
+                     <div class="reveal reveal-zoom delay-100 flex flex-col items-center gap-2 group">
+                        <div class="w-20 h-20 md:w-24 md:h-24 flex items-center justify-center rounded-full border-2 border-gold/30 bg-white dark:bg-white/5 shadow-sm group-hover:border-primary group-hover:scale-110 transition-all duration-300">
+                           <p id="days" class="text-primary text-2xl md:text-3xl font-bold">00</p>
+                        </div>
+                        <p class="text-[#89616b] dark:text-gray-400 text-xs font-bold uppercase tracking-widest">Ngày</p>
                      </div>
-                     <p class="text-[#89616b] dark:text-gray-400 text-xs font-bold uppercase tracking-widest">Ngày</p>
-                  </div>
-                  <div class="flex flex-col items-center gap-2 group">
-                     <div class="w-20 h-20 md:w-24 md:h-24 flex items-center justify-center rounded-full border-2 border-gold/30 bg-white dark:bg-white/5 shadow-sm group-hover:border-primary transition-colors">
-                        <p id="hours" class="text-primary text-2xl md:text-3xl font-bold">00</p>
+
+                     <div class="reveal reveal-zoom delay-200 flex flex-col items-center gap-2 group">
+                        <div class="w-20 h-20 md:w-24 md:h-24 flex items-center justify-center rounded-full border-2 border-gold/30 bg-white dark:bg-white/5 shadow-sm group-hover:border-primary group-hover:scale-110 transition-all duration-300">
+                           <p id="hours" class="text-primary text-2xl md:text-3xl font-bold">00</p>
+                        </div>
+                        <p class="text-[#89616b] dark:text-gray-400 text-xs font-bold uppercase tracking-widest">Giờ</p>
                      </div>
-                     <p class="text-[#89616b] dark:text-gray-400 text-xs font-bold uppercase tracking-widest">Giờ</p>
-                  </div>
-                  <div class="flex flex-col items-center gap-2 group">
-                     <div class="w-20 h-20 md:w-24 md:h-24 flex items-center justify-center rounded-full border-2 border-gold/30 bg-white dark:bg-white/5 shadow-sm group-hover:border-primary transition-colors">
-                        <p id="minutes" class="text-primary text-2xl md:text-3xl font-bold">00</p>
+
+                     <div class="reveal reveal-zoom delay-300 flex flex-col items-center gap-2 group">
+                        <div class="w-20 h-20 md:w-24 md:h-24 flex items-center justify-center rounded-full border-2 border-gold/30 bg-white dark:bg-white/5 shadow-sm group-hover:border-primary group-hover:scale-110 transition-all duration-300">
+                           <p id="minutes" class="text-primary text-2xl md:text-3xl font-bold">00</p>
+                        </div>
+                        <p class="text-[#89616b] dark:text-gray-400 text-xs font-bold uppercase tracking-widest">Phút</p>
                      </div>
-                     <p class="text-[#89616b] dark:text-gray-400 text-xs font-bold uppercase tracking-widest">Phút</p>
-                  </div>
-                  <div class="flex flex-col items-center gap-2 group">
-                     <div class="w-20 h-20 md:w-24 md:h-24 flex items-center justify-center rounded-full border-2 border-gold/30 bg-white dark:bg-white/5 shadow-sm group-hover:border-primary transition-colors">
-                        <p id="seconds" class="text-primary text-2xl md:text-3xl font-bold">00</p>
+
+                     <div class="reveal reveal-zoom delay-400 flex flex-col items-center gap-2 group">
+                        <div class="w-20 h-20 md:w-24 md:h-24 flex items-center justify-center rounded-full border-2 border-gold/30 bg-white dark:bg-white/5 shadow-sm group-hover:border-primary group-hover:scale-110 transition-all duration-300">
+                           <p id="seconds" class="text-primary text-2xl md:text-3xl font-bold">00</p>
+                        </div>
+                        <p class="text-[#89616b] dark:text-gray-400 text-xs font-bold uppercase tracking-widest">Giây</p>
                      </div>
-                     <p class="text-[#89616b] dark:text-gray-400 text-xs font-bold uppercase tracking-widest">Giây</p>
-                  </div>
                </div>
             </div>
          </section>
@@ -194,184 +165,126 @@
          <section class="py-20 relative overflow-hidden" id="gioithieu">
             <div class="floral-bg absolute inset-0"></div>
             <div class="max-w-[960px] mx-auto relative px-4">
-               <div class="text-center mb-16">
-                  <h2
-                     class="text-3xl md:text-5xl font-serif italic text-[#181113] dark:text-white mb-4">Cô Dâu, Chú Rể</h2>
+               <div class="text-center reveal reveal-bottom mb-16">
+                  <h2 class="text-3xl md:text-5xl font-serif italic text-[#181113] dark:text-white mb-4">Cô Dâu, Chủ Rể</h2>
                   <div class="w-24 h-[1px] bg-gold mx-auto"></div>
                </div>
-               <div
-                  class="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20">
-                  <!-- Bride Card -->
-                  <div
-                     class="flex flex-col items-center text-center p-8 bg-white dark:bg-white/5 rounded-2xl shadow-xl border border-gold/10">
+               
+               <div class="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20">
+                  
+                  <div class="reveal reveal-left flex flex-col items-center text-center p-8 bg-white dark:bg-white/5 rounded-2xl shadow-xl border border-gold/10">
                      <div class="w-48 h-48 mb-6 relative">
-                        <div
-                           class="absolute inset-0 border-4 border-gold/20 rounded-full -m-2"></div>
-                        <div
-                           class="w-full h-full bg-center bg-no-repeat aspect-square bg-cover rounded-full shadow-inner"
-                           data-alt="portrait of beautiful bride Isabella"
+                        <div class="absolute inset-0 border-4 border-gold/20 rounded-full -m-2"></div>
+                        <div class="w-full h-full bg-center bg-no-repeat aspect-square bg-cover rounded-full shadow-inner"
                            style='background-image: url("image/image_2.jpg");'></div>
                      </div>
-                     <h3
-                        class="text-2xl font-serif italic text-primary mb-1">Bùi Thảo</h3>
-                     <p
-                        class="text-gold font-bold text-xs uppercase tracking-widest mb-4">Cô Dâu</p>
-                     <p
-                        class="text-[#89616b] dark:text-gray-400 text-sm leading-relaxed mb-4 italic">
-                        "Tôi không thể chờ đợi để bắt đầu cuộc sống vĩnh viễn của chúng tôi. Đạt đã là người bạn tốt nhất và tình yêu của cuộc đời tôi kể từ ngày chúng tôi gặp nhau ở Hồ Tây."
+                     <h3 class="text-2xl font-serif italic text-primary mb-1">Bùi Thảo</h3>
+                     <p class="text-gold font-bold text-xs uppercase tracking-widest mb-4">Cô Dâu</p>
+                     <p class="text-[#89616b] dark:text-gray-400 text-sm leading-relaxed mb-4 italic">
+                        "Tôi không thể chờ đợi để bắt đầu cuộc sống vĩnh viễn của chúng tôi..."
                      </p>
-                     <p
-                        class="text-[#181113] dark:text-white/70 text-sm font-medium">Con của <br>Bố: Bùi Minh Xuân( Thức) <br> Mẹ: Lê Thị Tâm</p>
+                     <p class="text-[#181113] dark:text-white/70 text-sm font-medium">Con của <br>Bố: Bùi Minh Xuân( Thức) <br> Mẹ: Lê Thị Tâm</p>
                   </div>
-                  <!-- Groom Card -->
-                  <div
-                     class="flex flex-col items-center text-center p-8 bg-white dark:bg-white/5 rounded-2xl shadow-xl border border-gold/10">
+
+                  <div class="reveal reveal-right flex flex-col items-center text-center p-8 bg-white dark:bg-white/5 rounded-2xl shadow-xl border border-gold/10">
                      <div class="w-48 h-48 mb-6 relative">
-                        <div
-                           class="absolute inset-0 border-4 border-gold/20 rounded-full -m-2"></div>
-                        <div
-                           class="w-full h-full bg-center bg-no-repeat aspect-square bg-cover rounded-full shadow-inner"
-                           data-alt="portrait of handsome groom Julian"
+                        <div class="absolute inset-0 border-4 border-gold/20 rounded-full -m-2"></div>
+                        <div class="w-full h-full bg-center bg-no-repeat aspect-square bg-cover rounded-full shadow-inner"
                            style='background-image: url("image/image_11.jpg");'></div>
                      </div>
-                     <h3
-                        class="text-2xl font-serif italic text-primary mb-1">Tiến Đạt</h3>
-                     <p
-                        class="text-gold font-bold text-xs uppercase tracking-widest mb-4">Chú Rể</p>
-                     <p
-                        class="text-[#89616b] dark:text-gray-400 text-sm leading-relaxed mb-4 italic">
-                        "Tìm thấy Thảo giống như tìm thấy mảnh ghép còn thiếu của tâm hồn tôi. Tôi rất vinh dự khi sắp được gọi cô ấy là vợ mình."
+                     <h3 class="text-2xl font-serif italic text-primary mb-1">Tiến Đạt</h3>
+                     <p class="text-gold font-bold text-xs uppercase tracking-widest mb-4">Chú Rể</p>
+                     <p class="text-[#89616b] dark:text-gray-400 text-sm leading-relaxed mb-4 italic">
+                        "Tìm thấy Thảo giống như tìm thấy mảnh ghép còn thiếu của tâm hồn tôi..."
                      </p>
-                     <p
-                        class="text-[#181113] dark:text-white/70 text-sm font-medium">Con của <br>Bố: Trần Văn Toàn <br> Mẹ: Nguyễn Thị Tuyết</p>
+                     <p class="text-[#181113] dark:text-white/70 text-sm font-medium">Con của <br>Bố: Trần Văn Toàn <br> Mẹ: Nguyễn Thị Tuyết</p>
                   </div>
+
                </div>
             </div>
          </section>
          <!-- Wedding Timeline -->
-         <section
-            class="py-20 bg-background-light dark:bg-background-dark/30"
-            id="timeline">
+         <section class="py-20 bg-background-light dark:bg-background-dark/30" id="timeline">
             <div class="max-w-[800px] mx-auto px-4">
-               <div class="text-center mb-16">
-                  <h2
-                     class="text-3xl md:text-5xl font-serif italic text-[#181113] dark:text-white mb-4">Ngày Trọng Đại</h2>
-                  <p
-                     class="text-[#89616b] dark:text-gray-400 uppercase tracking-widest text-xs font-bold">Wedding
-                     Schedule
-                  </p>
+               <div class="text-center mb-16 reveal reveal-bottom">
+                     <h2 class="text-3xl md:text-5xl font-serif italic text-[#181113] dark:text-white mb-4">Ngày Trọng Đại</h2>
+                     <p class="text-[#89616b] dark:text-gray-400 uppercase tracking-widest text-xs font-bold">Wedding Schedule</p>
                </div>
+
                <div class="space-y-12 relative">
-                  <!-- Vertical Line -->
-                  <div
-                     class="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-[1px] bg-gold/30 hidden md:block"></div>
-                  <!-- Event 1 -->
-                  <div
-                     class="relative flex flex-col md:flex-row items-center gap-8 group">
-                     <div class="flex-1 text-center md:text-right">
-                        <h4
-                           class="text-xl font-serif italic text-primary">Lễ Ăn Hỏi</h4>
-                        <p
-                           class="text-[#89616b] dark:text-gray-400 text-sm mt-1">8 giờ 30 phút ngày 27-1</p>
-                        <p class="text-sm mt-2 opacity-80">Gia Đình Họ nhà Gái</p>
+                     <div class="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-[1px] bg-gold/30 hidden md:block reveal reveal-line"></div>
+
+                     <div class="relative flex flex-col md:flex-row items-center gap-8 group reveal reveal-left">
+                        <div class="flex-1 text-center md:text-right">
+                           <h4 class="text-xl font-serif italic text-primary">Lễ Ăn Hỏi</h4>
+                           <p class="text-[#89616b] dark:text-gray-400 text-sm mt-1">8 giờ 30 phút ngày 27-1</p>
+                           <p class="text-sm mt-2 opacity-80">Gia Đình Họ nhà Gái</p>
+                        </div>
+                        <div class="z-10 w-12 h-12 rounded-full bg-white dark:bg-background-dark border-2 border-gold flex items-center justify-center text-gold group-hover:bg-primary group-hover:border-primary group-hover:text-white transition-all duration-500">
+                           <span class="material-symbols-outlined">church</span>
+                        </div>
+                        <div class="flex-1"></div>
                      </div>
-                     <div
-                        class="z-10 w-12 h-12 rounded-full bg-white dark:bg-background-dark border-2 border-gold flex items-center justify-center text-gold group-hover:bg-primary group-hover:border-primary group-hover:text-white transition-all">
-                        <span
-                           class="material-symbols-outlined">church</span>
+
+                     <div class="relative flex flex-col md:flex-row items-center gap-8 group reveal reveal-right">
+                        <div class="flex-1 order-2 md:order-1"></div>
+                        <div class="z-10 w-12 h-12 rounded-full bg-white dark:bg-background-dark border-2 border-gold flex items-center justify-center text-gold group-hover:bg-primary group-hover:border-primary group-hover:text-white transition-all duration-500 order-1 md:order-2">
+                           <span class="material-symbols-outlined">local_bar</span>
+                        </div>
+                        <div class="flex-1 text-center md:text-left order-3">
+                           <h4 class="text-xl font-serif italic text-primary">Bữa Cơm Thân Mật</h4>
+                           <p class="text-[#89616b] dark:text-gray-400 text-sm mt-1">16 giờ ngày 27-1 (Nhà Trai)</p>
+                           <p class="text-[#89616b] dark:text-gray-400 text-sm mt-1">17 giờ ngày 27-1 (Nhà Gái)</p>
+                        </div>
                      </div>
-                     <div class="flex-1"></div>
-                  </div>
-                  <!-- Event 2 -->
-                  <div
-                     class="relative flex flex-col md:flex-row items-center gap-8 group">
-                     <div class="flex-1 order-2 md:order-1"></div>
-                     <div
-                        class="z-10 w-12 h-12 rounded-full bg-white dark:bg-background-dark border-2 border-gold flex items-center justify-center text-gold group-hover:bg-primary group-hover:border-primary group-hover:text-white transition-all order-1 md:order-2">
-                        <span
-                           class="material-symbols-outlined">local_bar</span>
+
+                     <div class="relative flex flex-col md:flex-row items-center gap-8 group reveal reveal-left">
+                        <div class="flex-1 text-center md:text-right">
+                           <h4 class="text-xl font-serif italic text-primary">Lễ Thành Hôn</h4>
+                           <p class="text-[#89616b] dark:text-gray-400 text-sm mt-1">10 giờ 30 ngày 28-1</p>
+                           <p class="text-sm mt-2 opacity-80">Gia Đình Họ nhà Trai</p>
+                        </div>
+                        <div class="z-10 w-12 h-12 rounded-full bg-white dark:bg-background-dark border-2 border-gold flex items-center justify-center text-gold group-hover:bg-primary group-hover:border-primary group-hover:text-white transition-all duration-500">
+                           <span class="material-symbols-outlined">restaurant</span>
+                        </div>
+                        <div class="flex-1"></div>
                      </div>
-                     <div
-                        class="flex-1 text-center md:text-left order-3">
-                        <h4
-                           class="text-xl font-serif italic text-primary">Bữa Cơm Thân Mật</h4>
-                        <p class="text-[#89616b] dark:text-gray-400 text-sm mt-1">
-                           16 giờ ngày 27-1 (Nhà Trai)
-                        </p>
-                        <p class="text-[#89616b] dark:text-gray-400 text-sm mt-1">
-                           17 giờ ngày 27-1 (Nhà Gái)
-                        </p>
-                     </div>
-                  </div>
-                  <!-- Event 3 -->
-                  <div
-                     class="relative flex flex-col md:flex-row items-center gap-8 group">
-                     <div class="flex-1 text-center md:text-right">
-                        <h4
-                           class="text-xl font-serif italic text-primary">Lễ Thành Hôn</h4>
-                        <p
-                           class="text-[#89616b] dark:text-gray-400 text-sm mt-1">10 giờ 30 ngày 28-1</p>
-                        <p class="text-sm mt-2 opacity-80">Gia Đình Họ nhà Trai</p>
-                     </div>
-                     <div
-                        class="z-10 w-12 h-12 rounded-full bg-white dark:bg-background-dark border-2 border-gold flex items-center justify-center text-gold group-hover:bg-primary group-hover:border-primary group-hover:text-white transition-all">
-                        <span
-                           class="material-symbols-outlined">restaurant</span>
-                     </div>
-                     <div class="flex-1"></div>
-                  </div>
                </div>
             </div>
          </section>
          <!-- Photo Gallery -->
          <section class="py-20 px-4" id="hinhanh">
             <div class="max-w-[1200px] mx-auto">
-               <div class="text-center mb-16">
-                  <h2
-                     class="text-3xl md:text-5xl font-serif italic text-[#181113] dark:text-white mb-4">Hình Ảnh</h2>
-                  <p
-                     class="text-[#89616b] dark:text-gray-400 uppercase tracking-widest text-xs font-bold">Khoảnh Khắc</p>
+               <div class="text-center mb-16 reveal reveal-bottom">
+                  <h2 class="text-3xl md:text-5xl font-serif italic text-[#181113] dark:text-white mb-4">Hình Ảnh</h2>
+                  <p class="text-[#89616b] dark:text-gray-400 uppercase tracking-widest text-xs font-bold">Khoảnh Khắc</p>
                </div>
+
                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <div
-                     class="col-span-2 row-span-2 relative group overflow-hidden rounded-xl">
-                     <div
-                        class="w-full h-full bg-center bg-cover aspect-square transition-transform duration-500 group-hover:scale-110"
-                        data-alt="couple kissing in paris"
+                  <div class="reveal reveal-drop col-span-2 row-span-2 relative group overflow-hidden rounded-xl">
+                     <div class="w-full h-full bg-center bg-cover aspect-square transition-transform duration-500 group-hover:scale-110"
                         style='background-image: url("image/image_4.jpg");'></div>
-                     <div
-                        class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                     </div>
+                     <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"></div>
                   </div>
-                  <div
-                     class="aspect-square relative group overflow-hidden rounded-xl">
-                     <div
-                        class="w-full h-full bg-center bg-cover transition-transform duration-500 group-hover:scale-110"
-                        data-alt="engagement rings close up"
-                        style='background-image: url("image/image_5.jpg");'>
-                     </div>
+
+                  <div class="reveal reveal-drop delay-500 aspect-square relative group overflow-hidden rounded-xl">
+                     <div class="w-full h-full bg-center bg-cover transition-transform duration-500 group-hover:scale-110"
+                        style='background-image: url("image/image_5.jpg");'></div>
                   </div>
-                  <div
-                     class="aspect-square relative group overflow-hidden rounded-xl">
-                     <div
-                        class="w-full h-full bg-center bg-cover transition-transform duration-500 group-hover:scale-110"
-                        data-alt="bride looking at sunset"
+
+                  <div class="reveal reveal-drop delay-700 aspect-square relative group overflow-hidden rounded-xl">
+                     <div class="w-full h-full bg-center bg-cover transition-transform duration-500 group-hover:scale-110"
                         style='background-image: url("image/image_6.jpg");'></div>
                   </div>
-                  <div
-                     class="aspect-square relative group overflow-hidden rounded-xl">
-                     <div
-                        class="w-full h-full bg-center bg-cover transition-transform duration-500 group-hover:scale-110"
-                        data-alt="groom and bride holding hands"
+
+                  <div class="reveal reveal-drop delay-900 aspect-square relative group overflow-hidden rounded-xl">
+                     <div class="w-full h-full bg-center bg-cover transition-transform duration-500 group-hover:scale-110"
                         style='background-image: url("image/image_7.jpg");'></div>
                   </div>
-                  <div
-                     class="aspect-square relative group overflow-hidden rounded-xl">
-                     <div
-                        class="w-full h-full bg-center bg-cover transition-transform duration-500 group-hover:scale-110"
-                        data-alt="romantic beach walk"
-                        style='background-image: url("image/image_8.jpg");'>
-                     </div>
+
+                  <div class="reveal reveal-drop delay-1100 aspect-square relative group overflow-hidden rounded-xl">
+                     <div class="w-full h-full bg-center bg-cover transition-transform duration-500 group-hover:scale-110"
+                        style='background-image: url("image/image_8.jpg");'></div>
                   </div>
                </div>
             </div>
@@ -380,14 +293,14 @@
         <!-- Vị Trí -->
          <section class="py-20 bg-cream dark:bg-background-dark/50" id="vitri">
             <div class="max-w-[1200px] mx-auto px-4">
-                <div class="text-center mb-16">
+                <div class="text-center mb-16 reveal reveal-bottom">
                     <h2 class="text-3xl md:text-5xl font-serif italic text-[#181113] dark:text-white mb-4">Vị Trí Bản Đồ</h2>
                     <div class="w-24 h-[1px] bg-gold mx-auto"></div>
                     <p class="text-[#89616b] dark:text-gray-400 mt-4 uppercase tracking-widest text-xs font-bold">Chỉ đường tới hôn lễ</p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16">
-                    <div class="bg-white dark:bg-white/5 p-6 rounded-2xl shadow-xl border border-gold/10 flex flex-col h-full">
+                    <div class="bg-white dark:bg-white/5 p-6 rounded-2xl shadow-xl border border-gold/10 flex flex-col h-full reveal reveal-left">
                         <div class="flex items-center gap-4 mb-6">
                         <div class="size-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
                             <span class="material-symbols-outlined">home</span>
@@ -398,7 +311,7 @@
                         </div>
                         </div>
                         
-                        <div class="mb-6 flex-1 text-sm text-[#89616b] dark:text-gray-400">
+                        <div class="mb-6 flex-1 text-sm text-[#89616b] dark:text-gray-400 reveal reveal-bottom delay-200">
                         <div class="flex items-start gap-2 mb-2">
                             <span class="material-symbols-outlined text-sm mt-1">location_on</span>
                             <p>Địa chỉ: Thôn Văn Bòng, Xã Đại Hoàng (Gia Phương cũ), Huyện Gia Viễn , Tỉnh Ninh Bình</p>
@@ -407,17 +320,19 @@
                             <span class="material-symbols-outlined text-sm mt-1">call</span>
                             <p>Sđt: 0376 508 233</p>
                         </div>
-                        </div>
+                     </div>
 
-                        <div class="rounded-xl overflow-hidden h-64 border border-gold/20">
+                     <div class="rounded-xl overflow-hidden h-64 border border-gold/20 
+                                 reveal reveal-zoom delay-200">
+
                         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d890.6069453646508!2d105.86734383956147!3d20.3259023772411!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31367f31a18261b3%3A0xa2a4c28fe0d08df7!2zVsOibiBC4buTbmcsIEdpYSBQaMawxqFuZywgR2lhIFZp4buFbiwgTmluaCBCw6xuaCwgVmnhu4d0IE5hbQ!5e1!3m2!1svi!2s!4v1768564121611!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>                        </div>
                         
-                        <a href="https://maps.app.goo.gl/EmEeC9f4r3EpRkgbA" target="_blank" class="mt-4 inline-flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-widest text-primary hover:text-gold transition-colors">
+                        <a href="https://maps.app.goo.gl/EmEeC9f4r3EpRkgbA" target="_blank" class="mt-4 inline-flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-widest text-primary hover:text-gold transition-colorsreveal reveal-bottom delay-300">
                         Mở bằng Google Maps <span class="material-symbols-outlined text-sm">open_in_new</span>
                         </a>
                     </div>
 
-                    <div class="bg-white dark:bg-white/5 p-6 rounded-2xl shadow-xl border border-gold/10 flex flex-col h-full">
+                    <div class="bg-white dark:bg-white/5 p-6 rounded-2xl shadow-xl border border-gold/10 flex flex-col h-full reveal reveal-right">
                         <div class="flex items-center gap-4 mb-6">
                         <div class="size-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
                             <span class="material-symbols-outlined">home</span>
@@ -428,7 +343,7 @@
                         </div>
                         </div>
 
-                        <div class="mb-6 flex-1 text-sm text-[#89616b] dark:text-gray-400">
+                        <div class="mb-6 flex-1 text-sm text-[#89616b] dark:text-gray-400 reveal reveal-bottom delay-200">
                         <div class="flex items-start gap-2 mb-2">
                             <span class="material-symbols-outlined text-sm mt-1">location_on</span>
                             <p>Địa chỉ: Số Nhà 19, Đường Trương Huy Dực, Phường Quang Trung(Bỉm Sơn cũ),Thanh Hóa</p>
@@ -439,12 +354,12 @@
                         </div>
                         </div>
 
-                        <div class="rounded-xl overflow-hidden h-64 border border-gold/20">
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3561.898892718006!2d105.85530267500455!3d20.07920668134309!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3136615f4e364adf%3A0x34ce571088978172!2zMTkgUC4gVHLGsMahbmcgSHV5IEThu7FjLCBQLiBRdWFuZyBUcnVuZywgQuG7iW0gU8ahbiwgVGhhbmggSMOzYSwgVmnhu4d0IE5hbQ!5e1!3m2!1svi!2s!4v1768563992227!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        <div class="rounded-xl overflow-hidden h-64 border border-gold/20 reveal reveal-zoom delay-200">
+                           <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3561.898892718006!2d105.85530267500455!3d20.07920668134309!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3136615f4e364adf%3A0x34ce571088978172!2zMTkgUC4gVHLGsMahbmcgSHV5IEThu7FjLCBQLiBRdWFuZyBUcnVuZywgQuG7iW0gU8ahbiwgVGhhbmggSMOzYSwgVmnhu4d0IE5hbQ!5e1!3m2!1svi!2s!4v1768563992227!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                         </div>
 
-                        <a href="https://maps.app.goo.gl/AcLTLZzGoFXqgG5E9" target="_blank" class="mt-4 inline-flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-widest text-primary hover:text-gold transition-colors">
-                        Mở bằng Google Maps <span class="material-symbols-outlined text-sm">open_in_new</span>
+                        <a href="https://maps.app.goo.gl/AcLTLZzGoFXqgG5E9" target="_blank" class="mt-4 inline-flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-widest text-primary hover:text-gold transition-colorsreveal reveal-bottom delay-300">
+                           Mở bằng Google Maps <span class="material-symbols-outlined text-sm">open_in_new</span>
                         </a>
                     </div>
                 </div>
@@ -452,65 +367,88 @@
         </section>
 
          <!-- RSVP Call to Action -->
-         <section
-            class="py-20 bg-primary/5 dark:bg-primary/10 border-t border-primary/10">
+         <section class="py-20 bg-primary/5 dark:bg-primary/10 border-t border-primary/10">
+
             <div class="max-w-[600px] mx-auto text-center px-4">
-               <h2
-                  class="text-3xl md:text-5xl font-serif italic text-primary mb-6">Bạn có tham dự chứ
-               </h2>
-               <p
-                  class="text-[#89616b] dark:text-gray-300 mb-8 leading-relaxed">
-                    Chúng tôi rất háo hức được cùng bạn kỷ niệm ngày trọng đại này. Vui lòng phản hồi trước ngày 22 tháng 1 năm 2026.
-               </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <button id="btn-join"
-                    class="bg-primary text-white px-10 py-4 rounded-full font-bold tracking-widest uppercase text-sm hover:shadow-lg transition-all transform hover:-translate-y-1">
-                    Tham Gia
-                </button>
-                <button id="btn-busy"
-                    class="bg-white dark:bg-white/10 border border-primary/30 text-primary dark:text-white px-10 py-4 rounded-full font-bold tracking-widest uppercase text-sm hover:bg-primary/10 transition-all">
-                    Bận Và Không Thể Tham Gia
-                </button>
-            </div>
 
-            <div id="wedding-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 hidden">
-                <div class="bg-white dark:bg-gray-800 rounded-2xl max-w-md w-full p-8 shadow-2xl relative animate-in fade-in zoom-in duration-300">
-                    
-                    <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
+               <!-- TIÊU ĐỀ + MÔ TẢ -->
+               <div class="reveal reveal-bottom">
+                     <h2 class="text-3xl md:text-5xl font-serif italic text-primary mb-6">
+                        Bạn có tham dự chứ
+                     </h2>
 
-                    <div id="modal-content" class="text-center">
+                     <p class="text-[#89616b] dark:text-gray-300 mb-8 leading-relaxed">
+                        Chúng tôi rất háo hức được cùng bạn kỷ niệm ngày trọng đại này. 
+                        Vui lòng phản hồi trước ngày 22 tháng 1 năm 2026.
+                     </p>
+               </div>
+
+
+               <!-- NÚT HÀNH ĐỘNG -->
+               <div class="flex flex-col sm:flex-row gap-4 justify-center">
+
+                     <button id="btn-join"
+                        class="bg-primary text-white px-10 py-4 rounded-full font-bold tracking-widest uppercase text-sm 
+                              hover:shadow-lg transition-all transform hover:-translate-y-1
+                              reveal reveal-zoom delay-200">
+                        Tham Gia
+                     </button>
+
+                     <button id="btn-busy"
+                        class="bg-white dark:bg-white/10 border border-primary/30 text-primary dark:text-white 
+                              px-10 py-4 rounded-full font-bold tracking-widest uppercase text-sm 
+                              hover:bg-primary/10 transition-all
+                              reveal reveal-zoom delay-300">
+                        Bận Và Không Thể Tham Gia
+                     </button>
+
+               </div>
+
+
+               <!-- MODAL XÁC NHẬN -->
+               <div id="wedding-modal" 
+                     class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 hidden">
+
+                     <div class="bg-white dark:bg-gray-800 rounded-2xl max-w-md w-full p-8 shadow-2xl relative 
+                                 animate-in fade-in zoom-in duration-300">
+
+                        <button onclick="closeModal()" 
+                                 class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+                           <svg xmlns="http://www.w3.org/2000/svg" 
+                                 class="h-6 w-6" 
+                                 fill="none" 
+                                 viewBox="0 0 24 24" 
+                                 stroke="currentColor">
+                                 <path stroke-linecap="round" 
+                                       stroke-linejoin="round" 
+                                       stroke-width="2" 
+                                       d="M6 18L18 6M6 6l12 12" />
+                           </svg>
+                        </button>
+
+                        <div id="modal-content" class="text-center">
                         </div>
-                </div>
-            </div>
+
+                     </div>
+               </div>
+
             </div>
          </section>
+
       </main>
-      <!-- <div class="fixed bottom-6 left-6 z-50">
+      <div class="fixed bottom-6 left-6 z-50">
          <button id="music-control" class="group relative flex items-center justify-center w-12 h-12 bg-white dark:bg-background-dark border-2 border-gold rounded-full shadow-xl overflow-hidden">
             <span id="music-icon" class="material-symbols-outlined text-primary animate-spin-slow">music_note</span>
          <audio id="bg-music" loop muted autoplay>
-            <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
+            <source src="nhacnen.mp3" type="audio/mpeg">
          </audio>
 
          </button>
       </div>
 
       <style>
-         @keyframes spin-slow {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-         }
-         .animate-spin-slow {
-            animation: spin-slow 4s linear infinite;
-         }
-         .music-paused {
-            animation-play-state: paused !important;
-         }
-      </style>       -->
+
+      </style>      
       <!-- Footer -->
       <footer
          class="py-12 border-t border-[#f4f0f1] dark:border-white/10 text-center">
