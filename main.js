@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    // --- PHẦN 1: ĐẾM NGƯỢC ---
+    // ===============================
+    // 1. ĐẾM NGƯỢC
+    // ===============================
     const countDownDate = new Date("Jan 28, 2026 10:30:00").getTime();
 
     const elDays = document.getElementById("days");
@@ -9,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const elSeconds = document.getElementById("seconds");
     const elTitle = document.querySelector(".text-gold");
 
-    const x = setInterval(function () {
+    setInterval(function () {
         const now = new Date().getTime();
         const distance = countDownDate - now;
 
@@ -24,96 +26,170 @@ document.addEventListener('DOMContentLoaded', function () {
         if (elSeconds) elSeconds.innerHTML = seconds.toString().padStart(2, '0');
 
         if (distance < 0) {
-            clearInterval(x);
             if (elTitle) elTitle.innerHTML = "Lễ cưới đang diễn ra!";
         }
     }, 1000);
 
 
-    // --- PHẦN 2: POPUP & EMAIL ---
+    // ===============================
+    // 2. RSVP + MODAL SIÊU XỊN
+    // ===============================
     const modal = document.getElementById('wedding-modal');
     const modalContent = document.getElementById('modal-content');
 
-    window.openModal = function (type) {
-        if (!modal || !modalContent) return;
+    const btnJoin = document.getElementById('btn-join');
+    const btnBusy = document.getElementById('btn-busy');
 
+    // --- Đọc trạng thái cũ ---
+    const saved = localStorage.getItem('wedding-rsvp');
+    if (saved === 'join') markJoined();
+    if (saved === 'busy') markBusy();
+
+    function markJoined() {
+        btnJoin.innerHTML = "Đã xác nhận ❤️";
+        btnJoin.classList.add('opacity-70');
+
+        btnBusy.classList.remove('opacity-70');
+        btnBusy.innerHTML = "Bận Và Không Thể Tham Gia";
+    }
+
+    function markBusy() {
+        btnBusy.innerHTML = "Đã gửi lời chúc 💌";
+        btnBusy.classList.add('opacity-70');
+
+        btnJoin.classList.remove('opacity-70');
+        btnJoin.innerHTML = "Tham Gia";
+    }
+
+
+    // --- PHÁO GIẤY ---
+    function fireConfetti() {
+        const c = document.createElement('div');
+        c.innerHTML = "🎉🎊✨";
+        c.className = "fixed inset-0 flex items-center justify-center text-6xl pointer-events-none animate-bounce";
+        document.body.appendChild(c);
+
+        setTimeout(() => c.remove(), 2000);
+    }
+
+    // --- HOA RƠI ---
+    function flowerEffect() {
+        const f = document.createElement('div');
+        f.innerHTML = "🌸🌼";
+        f.className = "fixed inset-0 flex items-center justify-center text-6xl pointer-events-none animate-pulse";
+        document.body.appendChild(f);
+
+        setTimeout(() => f.remove(), 2000);
+    }
+
+
+    window.openModal = function (type) {
         modal.classList.remove('hidden');
 
         if (type === 'join') {
+
+            markJoined();
+            localStorage.setItem('wedding-rsvp', 'join');
+
             modalContent.innerHTML = `
-                <div class="relative py-6 px-4 animate-in fade-in zoom-in duration-300">
+                <div class="py-6 px-4 text-center">
                     <div class="text-6xl mb-4 animate-bounce">❤️</div>
-                    <h3 class="text-3xl font-serif font-bold text-primary mb-4 tracking-wide">Cảm ơn bạn!</h3>
-                    <div class="w-20 h-px bg-[#D4AF37]/40 mx-auto mb-6"></div>
-                    <p class="text-gray-600 dark:text-gray-300 leading-relaxed mb-8">
-                        Sự hiện diện của bạn là món quà ý nghĩa nhất đối với chúng mình.<br>
-                        <span class="italic font-serif text-primary mt-2 block text-lg">Hẹn gặp bạn tại buổi lễ nhé!</span>
+                    <h3 class="text-3xl font-serif text-primary mb-4">
+                        Cảm ơn bạn!
+                    </h3>
+
+                    <p class="mb-6 text-gray-600 dark:text-gray-300">
+                        Sự hiện diện của bạn là niềm hạnh phúc của chúng mình.
                     </p>
+
                     <button onclick="closeModal()" 
-                        class="bg-primary text-white px-12 py-3 rounded-full text-sm font-bold tracking-[0.2em] uppercase hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+                        class="bg-primary text-white px-10 py-3 rounded-full">
                         Đóng
                     </button>
                 </div>
             `;
-            sendEmailNotification("XÁC NHẬN THAM GIA");
-        } else {
-            modalContent.innerHTML = `
-                <div class="relative py-6 px-4 animate-in fade-in zoom-in duration-300">
-                    <div class="text-5xl mb-4 grayscale opacity-70">😌</div>
-                    <h3 class="text-2xl font-serif font-bold text-primary mb-2">Tiếc quá đi thôi...</h3>
-                    <p class="text-gray-600 dark:text-gray-300 mb-6 text-sm">Chúng mình rất trân trọng tình cảm của bạn dù bạn không thể góp mặt.</p>
-                    
-                    <div class="relative p-2 border-2 border-[#D4AF37]/20 rounded-2xl bg-white dark:bg-gray-900 inline-block shadow-xl mb-6">
-                        <img src="image/qr_code.jpg" alt="QR Code" class="mx-auto max-w-[180px] rounded-lg">
-                        <div class="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-[#D4AF37] text-white text-[10px] px-4 py-1 rounded-full whitespace-nowrap font-bold shadow-md">
-                            MỪNG CƯỚI ONLINE
-                        </div>
-                    </div>
 
-                    <p class="text-[11px] text-gray-400 mt-4 uppercase tracking-[0.2em]">Cảm ơn bạn đã luôn yêu thương!</p>
-                    <button onclick="closeModal()" class="mt-8 text-gray-400 text-xs underline hover:text-primary transition-colors uppercase tracking-widest">Quay lại</button>
+            fireConfetti();
+            sendEmailNotification("THAM GIA");
+
+            // Tự cuộn xuống map sau 1s
+            setTimeout(() => {
+                document.getElementById('vitri')
+                    ?.scrollIntoView({ behavior: 'smooth' });
+            }, 1000);
+
+        } else {
+
+            markBusy();
+            localStorage.setItem('wedding-rsvp', 'busy');
+
+            modalContent.innerHTML = `
+                <div class="py-6 px-4 text-center">
+                    <div class="text-5xl mb-4">😌</div>
+                    <h3 class="text-2xl font-serif text-primary mb-2">
+                        Tiếc quá...
+                    </h3>
+
+                    <img src="image/qr_code.jpg"
+                         class="mx-auto max-w-[180px] rounded-lg mb-4">
+
+                    <p class="text-sm text-gray-500">
+                        Cảm ơn tình cảm của bạn dành cho chúng mình!
+                    </p>
+
+                    <button onclick="closeModal()" 
+                        class="mt-6 underline text-xs">
+                        Quay lại
+                    </button>
                 </div>
             `;
-            // sendEmailNotification("KHÁCH BẬN (KHÔNG THAM GIA)");
+
+            flowerEffect();
+            sendEmailNotification("KHÔNG THAM GIA");
         }
     };
 
-    window.closeModal = function () {
-        if (modal) modal.classList.add('hidden');
-    };
+    window.closeModal = () => modal.classList.add('hidden');
 
-    const btnJoin = document.getElementById('btn-join');
-    const btnBusy = document.getElementById('btn-busy');
-    if (btnJoin) btnJoin.addEventListener('click', () => openModal('join'));
-    if (btnBusy) btnBusy.addEventListener('click', () => openModal('busy'));
+    btnJoin.addEventListener('click', () => openModal('join'));
+    btnBusy.addEventListener('click', () => openModal('busy'));
 
-    window.addEventListener('click', (e) => { if (e.target == modal) closeModal(); });
 
-    // HÀM GỬI EMAIL THẬT
+
+    // ===============================
+    // 3. GỬI EMAIL
+    // ===============================
     function sendEmailNotification(statusValue) {
-        console.log("Đang gửi thông báo: " + statusValue);
 
-        // Lưu ý: Các key 'status' và 'time' phải khớp với {{status}} và {{time}} trong Template
+        const last = localStorage.getItem('last-send');
+        if (last && Date.now() - last < 5000) return;
+
         const templateParams = {
             status: statusValue,
-            time: new Date().toLocaleString('vi-VN', {
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric'
-            })
+            device: navigator.userAgent,
+            time: new Date().toLocaleString('vi-VN')
         };
 
-        // Thay thế 'YOUR_SERVICE_ID' và 'YOUR_TEMPLATE_ID' bằng ID thật của bạn
-        emailjs.send('service_1orvapl', 'template_23gvezz', templateParams)
-            .then(function (response) {
-                console.log('EMAIL GỬI THÀNH CÔNG!', response.status, response.text);
-            }, function (error) {
-                console.error('LỖI GỬI EMAIL:', error);
-            });
+        emailjs.send('service_1orvapl', 'template_23gvezz', templateParams);
+
+        localStorage.setItem('last-send', Date.now());
     }
+
+
+
+    // ===============================
+    // 4. REVEAL SCROLL
+    // ===============================
+    const observer_ = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                e.target.classList.add('active');
+            }
+        });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll('.reveal')
+        .forEach(el => observer_.observe(el));
 
     // --- PHẦN 3: NHẠC NỀN (BỎ QUA NẾU KHÔNG CẦN) ---
     const xemBtn = document.getElementById('xem');
