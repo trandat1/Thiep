@@ -76,9 +76,11 @@ body.menu-open {
 .reveal-drop {
     opacity: 0;
     transform: translateY(-70px);
-    filter: blur(8px); /* Tăng độ mờ lúc ẩn */
-    /* Tăng lên 1.5s để ảnh rơi như đang trôi trong nước */
-    transition: all 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+    /* Bỏ dòng filter: blur(8px); đi để hết lag */
+    
+    /* Chỉ cho phép chuyển động transform và opacity để mượt hơn */
+    transition: transform 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform, opacity; /* Giúp trình duyệt tối ưu hóa */
 }
 
 .reveal-drop.active {

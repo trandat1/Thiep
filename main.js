@@ -242,7 +242,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // ===== CLICK VÀO SPAN "Xem Thiệp" =====
     xemBtn.addEventListener('click', () => {
         playMusic();
-        startAutoScroll(120000); // 10 giây
+        startAutoScroll(191000);
     });
     // ===== NÚT BẬT/TẮT NHẠC CỦA BẠN =====
     musicBtn.addEventListener('click', () => {
