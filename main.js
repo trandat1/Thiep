@@ -34,86 +34,147 @@ document.addEventListener('DOMContentLoaded', function () {
     const modal = document.getElementById('wedding-modal');
     const modalContent = document.getElementById('modal-content');
 
+    // Hàm mở Modal dựa trên lựa chọn của khách
     window.openModal = function (type) {
         if (!modal || !modalContent) return;
-
         modal.classList.remove('hidden');
+
+        // Tạo phần chọn nhà chung
+        const sideSelector = `
+    <div class="mb-4">
+        <p class="text-[11px] text-gray-500 uppercase tracking-widest mb-3">Bạn là khách của:</p>
+        <div class="flex gap-2 justify-center">
+            <input type="radio" id="side-trai" name="guest-side" value="NHÀ TRAI" class="hidden peer/trai" checked>
+            <label for="side-trai" class="px-5 py-2 border rounded-full text-sm cursor-pointer peer-checked/trai:bg-primary peer-checked/trai:text-white transition-all">Nhà Trai</label>
+            
+            <input type="radio" id="side-gai" name="guest-side" value="NHÀ GÁI" class="hidden peer/gai">
+            <label for="side-gai" class="px-5 py-2 border rounded-full text-sm cursor-pointer peer-checked/gai:bg-primary peer-checked/gai:text-white transition-all">Nhà Gái</label>
+        </div>
+    </div>`;
 
         if (type === 'join') {
             modalContent.innerHTML = `
-                <div class="relative py-6 px-4 animate-in fade-in zoom-in duration-300">
-                    <div class="text-6xl mb-4 animate-bounce">❤️</div>
-                    <h3 class="text-3xl font-serif font-bold text-primary mb-4 tracking-wide">Cảm ơn bạn!</h3>
-                    <div class="w-20 h-px bg-[#D4AF37]/40 mx-auto mb-6"></div>
-                    <p class="text-gray-600 dark:text-gray-300 leading-relaxed mb-8">
-                        Sự hiện diện của bạn là món quà ý nghĩa nhất đối với chúng mình.<br>
-                        <span class="italic font-serif text-primary mt-2 block text-lg">Hẹn gặp bạn tại buổi lễ nhé!</span>
-                    </p>
-                    <button onclick="closeModal()" 
-                        class="bg-primary text-white px-12 py-3 rounded-full text-sm font-bold tracking-[0.2em] uppercase hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
-                        Đóng
-                    </button>
-                </div>
-            `;
-            sendEmailNotification("XÁC NHẬN THAM GIA");
+        <div class="py-6 px-4 animate-in fade-in zoom-in duration-300">
+            <h3 class="text-2xl font-serif font-bold text-primary mb-4">Xác nhận tham dự</h3>
+            ${sideSelector}
+            <input type="text" id="guest-name" placeholder="Tên của bạn..." class="w-full p-3 border border-gray-300 rounded-lg mb-4 outline-none focus:ring-1 focus:ring-primary">
+            <button onclick="submitGuestData('join')" class="bg-primary text-white px-8 py-3 rounded-full font-bold uppercase w-full hover:shadow-lg transition-all">Gửi xác nhận</button>
+        </div>`;
         } else {
             modalContent.innerHTML = `
-                <div class="relative py-6 px-4 animate-in fade-in zoom-in duration-300">
-                    <div class="text-5xl mb-4 grayscale opacity-70">😌</div>
-                    <h3 class="text-2xl font-serif font-bold text-primary mb-2">Tiếc quá đi thôi...</h3>
-                    <p class="text-gray-600 dark:text-gray-300 mb-6 text-sm">Chúng mình rất trân trọng tình cảm của bạn dù bạn không thể góp mặt.</p>
-                    
-                    <div class="relative p-2 border-2 border-[#D4AF37]/20 rounded-2xl bg-white dark:bg-gray-900 inline-block shadow-xl mb-6">
-                        <img src="image/qr_code.jpg" alt="QR Code" class="mx-auto max-w-[180px] rounded-lg">
-                        <div class="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-[#D4AF37] text-white text-[10px] px-4 py-1 rounded-full whitespace-nowrap font-bold shadow-md">
-                            MỪNG CƯỚI ONLINE
-                        </div>
-                    </div>
-
-                    <p class="text-[11px] text-gray-400 mt-4 uppercase tracking-[0.2em]">Cảm ơn bạn đã luôn yêu thương!</p>
-                    <button onclick="closeModal()" class="mt-8 text-gray-400 text-xs underline hover:text-primary transition-colors uppercase tracking-widest">Quay lại</button>
-                </div>
-            `;
-            // sendEmailNotification("KHÁCH BẬN (KHÔNG THAM GIA)");
+        <div class="py-6 px-4 animate-in fade-in zoom-in duration-300">
+            <h3 class="text-2xl font-serif font-bold text-primary mb-4">Gửi lời chúc</h3>
+            ${sideSelector}
+            <input type="text" id="guest-name" placeholder="Tên của bạn..." class="w-full p-3 border border-gray-300 rounded-lg mb-3 outline-none focus:ring-1 focus:ring-primary">
+            <textarea id="guest-message" placeholder="Lời chúc của bạn..." class="w-full p-3 border border-gray-300 rounded-lg mb-4 outline-none focus:ring-1 focus:ring-primary" rows="3"></textarea>
+            <button onclick="submitGuestData('busy')" class="bg-primary text-white px-8 py-3 rounded-full font-bold uppercase w-full hover:shadow-lg transition-all">Gửi lời chúc & Xem QR</button>
+        </div>`;
         }
     };
+
+    // Hàm xử lý dữ liệu khi khách nhấn nút Gửi
+    window.submitGuestData = function (type) {
+        const nameEl = document.getElementById('guest-name');
+        const sideEl = document.querySelector('input[name="guest-side"]:checked');
+        const messageInput = document.getElementById('guest-message');
+
+        const name = nameEl ? nameEl.value.trim() : "";
+        const side = sideEl ? sideEl.value : "CHƯA CHỌN";
+        const message = (type === 'busy' && messageInput) ? messageInput.value.trim() : "Sẽ tham dự trực tiếp";
+        const status = (type === 'join') ? "ĐI ĐƯỢC" : "KHÔNG ĐI ĐƯỢC";
+
+        if (!name) {
+            alert("Vui lòng nhập tên của bạn!");
+            return;
+        }
+
+        // Gửi email và sheet kèm theo các biến cần thiết
+        sendEmailNotification(status, name, message, side);
+        saveToGoogleSheet(status, name, message, side);
+        showFinalStep(type, side);
+    };
+
+    // Hàm hiển thị kết quả và QR tương ứng
+    function showFinalStep(type, side) {
+        if (type === 'join') {
+            modalContent.innerHTML = `
+        <div class="py-6 px-4 animate-in fade-in zoom-in duration-300 text-center">
+            <div class="text-6xl mb-4 animate-bounce">❤️</div>
+            <h3 class="text-3xl font-serif font-bold text-primary mb-4">Cảm ơn bạn!</h3>
+            <p class="text-gray-600 dark:text-gray-300">Sự hiện diện của bạn là niềm vinh hạnh cho gia đình ${side.toLowerCase()}.</p>
+            <button onclick="closeModal()" class="mt-8 text-sm underline text-gray-400 uppercase tracking-widest">Đóng</button>
+        </div>`;
+        } else {
+            // Chọn đúng ảnh QR theo nhà
+            const qrImage = (side === 'NHÀ TRAI') ? 'image/qr_nhatrai.jpg' : 'image/qr_nhagai.jpg';
+
+            modalContent.innerHTML = `
+        <div class="py-6 px-4 animate-in fade-in zoom-in duration-300 text-center">
+            <div class="text-5xl mb-4 grayscale opacity-70">😌</div>
+            <h3 class="text-2xl font-serif font-bold text-primary mb-2">Tiếc quá đi thôi...</h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-6 text-sm">Cảm ơn bạn vì lời chúc tốt đẹp gửi tới gia đình ${side.toLowerCase()}!</p>
+            
+            <div class="relative p-2 border-2 border-[#D4AF37]/20 rounded-2xl bg-white inline-block shadow-xl mb-6">
+                <img src="${qrImage}" alt="QR Code" class="mx-auto max-w-[180px] rounded-lg">
+                <div class="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-[#D4AF37] text-white text-[10px] px-4 py-1 rounded-full whitespace-nowrap font-bold shadow-md uppercase">
+                    MỪNG CƯỚI ${side}
+                </div>
+            </div>
+            <button onclick="closeModal()" class="mt-4 text-gray-400 text-xs underline uppercase tracking-widest block w-full">Đóng</button>
+        </div>`;
+        }
+    }
+
+    // Hàm lưu vào Google Sheet
+    function saveToGoogleSheet(status, name, message, side) {
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbw2DpFQDm-e6Omwo0dCPQi7NZMFVrnvxy_oBSI1KCRYzq2O_fHLVpxq5At_o5yUVrx24Q/exec'
+        const data = {
+            time: new Date().toLocaleString('vi-VN'),
+            status: status,
+            name: name,
+            message: message,
+            side: side
+        };
+
+        fetch(scriptURL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        }).catch(err => console.error("Lỗi khi lưu Sheet:", err));
+    }
+
+    // Hàm gửi Email qua EmailJS
+    function sendEmailNotification(statusValue, name, message, side) {
+        const templateParams = {
+            status: statusValue,
+            guest_name: name,
+            guest_message: message,
+            guest_side: side,
+            time: new Date().toLocaleString('vi-VN')
+        };
+
+        emailjs.send('service_1orvapl', 'template_23gvezz', templateParams)
+            .then(() => console.log('EMAIL GỬI THÀNH CÔNG!'))
+            .catch(err => console.error('LỖI GỬI EMAIL:', err));
+    }
 
     window.closeModal = function () {
         if (modal) modal.classList.add('hidden');
     };
 
+    // --- KÍCH HOẠT SỰ KIỆN CHO NÚT BẤM ---
+
     const btnJoin = document.getElementById('btn-join');
     const btnBusy = document.getElementById('btn-busy');
-    if (btnJoin) btnJoin.addEventListener('click', () => openModal('join'));
-    if (btnBusy) btnBusy.addEventListener('click', () => openModal('busy'));
 
-    window.addEventListener('click', (e) => { if (e.target == modal) closeModal(); });
+    if (btnJoin) btnJoin.onclick = function () { openModal('join'); };
+    if (btnBusy) btnBusy.onclick = function () { openModal('busy'); };
 
-    // HÀM GỬI EMAIL THẬT
-    function sendEmailNotification(statusValue) {
-        console.log("Đang gửi thông báo: " + statusValue);
+    window.addEventListener('click', (e) => {
+        if (e.target == modal) closeModal();
+    });
 
-        // Lưu ý: Các key 'status' và 'time' phải khớp với {{status}} và {{time}} trong Template
-        const templateParams = {
-            status: statusValue,
-            time: new Date().toLocaleString('vi-VN', {
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric'
-            })
-        };
-
-        // Thay thế 'YOUR_SERVICE_ID' và 'YOUR_TEMPLATE_ID' bằng ID thật của bạn
-        emailjs.send('service_1orvapl', 'template_23gvezz', templateParams)
-            .then(function (response) {
-                console.log('EMAIL GỬI THÀNH CÔNG!', response.status, response.text);
-            }, function (error) {
-                console.error('LỖI GỬI EMAIL:', error);
-            });
-    }
 
     // --- PHẦN 3: NHẠC NỀN (BỎ QUA NẾU KHÔNG CẦN) ---
     const xemBtn = document.getElementById('xem');
@@ -270,18 +331,78 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Hiệu Ứng Cuộn Hiện Dần
     const observerOptions = {
-            threshold: 0.2 // Kích hoạt khi phần tử hiện ra 15%
-        };
+        threshold: 0.2 // Kích hoạt khi phần tử hiện ra 15%
+    };
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                }
-            });
-        }, observerOptions);
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            }
+        });
+    }, observerOptions);
 
-        // Tìm tất cả các phần tử có class 'reveal' để theo dõi
-        const revealElements = document.querySelectorAll('.reveal');
-        revealElements.forEach(el => observer.observe(el));    
+    // Tìm tất cả các phần tử có class 'reveal' để theo dõi
+    const revealElements = document.querySelectorAll('.reveal');
+    revealElements.forEach(el => observer.observe(el));
+
+    // --- LIGHTBOX CHỨC NĂNG ---
+    // --- LIGHTBOX CHỨC NĂNG ---
+    const lightbox = document.getElementById('lightbox-modal');
+    const lightboxImg = document.getElementById('lightbox-img');
+
+    // 1. Gán hàm vào window để HTML gọi được (SỬA LỖI TẠI ĐÂY)
+    window.openLightbox = function (imageSrc) {
+        if (!lightbox || !lightboxImg) return;
+
+        // Gán đường dẫn ảnh
+        lightboxImg.src = imageSrc;
+
+        // Hiển thị modal
+        lightbox.classList.remove('hidden');
+
+        // Animation
+        setTimeout(() => {
+            lightbox.classList.remove('opacity-0');
+            lightboxImg.classList.remove('scale-95');
+            lightboxImg.classList.add('scale-100');
+        }, 10);
+
+        // Khóa cuộn trang
+        document.body.style.overflow = 'hidden';
+    };
+
+    // 2. Gán hàm đóng vào window luôn
+    window.closeLightbox = function () {
+        if (!lightbox) return;
+
+        // Animation ẩn
+        lightbox.classList.add('opacity-0');
+        lightboxImg.classList.add('scale-95');
+        lightboxImg.classList.remove('scale-100');
+
+        setTimeout(() => {
+            lightbox.classList.add('hidden');
+            lightboxImg.src = '';
+            document.body.style.overflow = '';
+        }, 300);
+    };
+
+    // Các sự kiện lắng nghe (giữ nguyên, nhưng đảm bảo có kiểm tra tồn tại)
+    if (lightbox) {
+        // Đóng khi click ra ngoài
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                window.closeLightbox();
+            }
+        });
+
+        // Đóng khi nhấn ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !lightbox.classList.contains('hidden')) {
+                window.closeLightbox();
+            }
+        });
+    }
+
 });
