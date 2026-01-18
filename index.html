@@ -79,14 +79,19 @@
       </header>
 
       <!-- Mobile Menu (thêm class cho dynamic top và transition) -->
-      <div id="mobile-menu" class="fixed inset-0 top-[0px] z-50 bg-white dark:bg-background-dark hidden md:hidden flex-col items-center pt-0 gap-8 shadow-2xl transition-all duration-300 ease-in-out overflow-y-auto">  <!-- Thay top-[57px] bằng top-[0px] động, thêm pt-0 và overflow-y-auto -->
-         <!-- Backdrop overlay (thêm div này để cover header nếu cần) -->
-         <div class="absolute inset-0 bg-black/20 backdrop-blur-sm z-0"></div>
-         <div class="relative z-10 flex-1 flex flex-col items-center justify-center pt-20 gap-8 w-full">  <!-- Thêm pt-20 tương đương height header, nhưng sẽ dynamic bằng JS -->
-            <a class="mobile-link text-xl font-semibold text-[#181113] dark:text-white hover:text-primary transition-colors w-full text-center py-4" href="#thoigian">Thời Gian</a>
-            <a class="mobile-link text-xl font-semibold text-[#181113] dark:text-white hover:text-primary transition-colors w-full text-center py-4" href="#gioithieu">Giới Thiệu</a>
-            <a class="mobile-link text-xl font-semibold text-[#181113] dark:text-white hover:text-primary transition-colors w-full text-center py-4" href="#hinhanh">Hình Ảnh</a>
-            <a class="mobile-link text-xl font-semibold text-[#181113] dark:text-white hover:text-primary transition-colors w-full text-center py-4" href="#vitri">Vị trí</a>
+      <div id="mobile-menu" class="fixed inset-0 z-50 bg-white dark:bg-[#181113] transform translate-x-full transition-transform duration-300 overflow-y-auto hidden">
+         
+         <div class="flex justify-end p-6"> <button id="close-menu-btn" class="text-gray-800 dark:text-white p-2 focus:outline-none hover:rotate-90 transition-transform duration-300">
+               <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+               </svg>
+            </button>
+         </div>
+         <div class="flex flex-col items-center gap-8 mt-10">
+            <a href="#home" class="mobile-link text-2xl ..." onclick="closeMenu()">Trang Chủ</a>
+            <a href="#about" class="mobile-link text-2xl ..." onclick="closeMenu()">Cặp Đôi</a>
+            <a href="#album" class="mobile-link text-2xl ..." onclick="closeMenu()">Album Ảnh</a>
+            <a href="#wedding" class="mobile-link text-2xl ..." onclick="closeMenu()">Sự Kiện</a>
          </div>
       </div>
       <main>
@@ -204,54 +209,74 @@
             </div>
          </section>
          <!-- Wedding Timeline -->
-         <section class="py-20 bg-background-light dark:bg-background-dark/30" id="timeline">
-            <div class="max-w-[800px] mx-auto px-4">
-               <div class="text-center mb-16 reveal reveal-bottom">
-                     <h2 class="text-3xl md:text-5xl font-serif italic text-[#181113] dark:text-white mb-4">Ngày Trọng Đại</h2>
-                     <p class="text-[#89616b] dark:text-gray-400 uppercase tracking-widest text-xs font-bold">Wedding Schedule</p>
-               </div>
+<section class="py-20 bg-white dark:bg-[#181113]" id="timeline"> <div class="max-w-[1000px] mx-auto px-4">
+        
+        <div class="text-center mb-16 reveal reveal-bottom">
+             <h2 class="text-3xl md:text-5xl font-serif italic text-[#181113] dark:text-white mb-4">Ngày Trọng Đại</h2>
+             <p class="text-[#89616b] dark:text-gray-400 uppercase tracking-widest text-xs font-bold">Wedding Schedule</p>
+        </div>
 
-               <div class="space-y-12 relative">
-                     <div class="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-[1px] bg-gold/30 hidden md:block reveal reveal-top"></div>
+        <div class="relative">
+            
+            <div class="absolute left-1/2 transform -translate-x-1/2 top-0 bottom-0 border-l border-solid border-gold/40 reveal reveal-top z-0"></div>
 
-                     <div class="relative flex flex-col md:flex-row items-center gap-8 group reveal reveal-left">
-                        <div class="flex-1 text-center md:text-right">
-                           <h4 class="text-xl font-serif italic text-primary">Lễ Ăn Hỏi</h4>
-                           <p class="text-[#89616b] dark:text-gray-400 text-sm mt-1">8 giờ 30 phút ngày 27-1</p>
-                           <p class="text-sm mt-2 opacity-80">Gia Đình Họ nhà Gái</p>
+            <div class="space-y-16 md:space-y-0"> <div class="relative flex flex-col md:flex-row items-center gap-4 md:gap-8 group reveal reveal-bottom md:reveal-left">
+                    
+                    <div class="flex-1 text-center md:text-right order-2 md:order-1 w-full md:w-auto relative z-10">
+                        <div class="inline-block bg-white dark:bg-[#181113] px-4 py-2 md:bg-transparent md:p-0">
+                            <h4 class="text-2xl md:text-xl font-serif italic text-primary">Lễ Ăn Hỏi</h4>
+                            <p class="text-[#89616b] dark:text-gray-400 text-sm mt-2 md:mt-1 font-medium">8 giờ 30 phút • 27/01</p>
+                            <p class="text-sm mt-1 opacity-80 italic font-light">Gia Đình Họ nhà Gái</p>
                         </div>
-                        <div class="z-10 w-12 h-12 rounded-full bg-white dark:bg-background-dark border-2 border-gold flex items-center justify-center text-gold group-hover:bg-primary group-hover:border-primary group-hover:text-white transition-all duration-500">
-                           <span class="material-symbols-outlined">church</span>
-                        </div>
-                        <div class="flex-1"></div>
-                     </div>
+                    </div>
+                    
+                    <div class="order-1 md:order-2 relative z-20 w-14 h-14 md:w-12 md:h-12 rounded-full bg-white dark:bg-[#181113] border border-gold flex items-center justify-center text-gold group-hover:bg-primary group-hover:border-primary group-hover:text-white transition-all duration-500">
+                        <span class="material-symbols-outlined text-2xl md:text-xl">church</span>
+                    </div>
+                    
+                    <div class="flex-1 hidden md:block order-3"></div>
+                </div>
 
-                     <div class="relative flex flex-col md:flex-row items-center gap-8 group reveal reveal-right">
-                        <div class="flex-1 order-2 md:order-1"></div>
-                        <div class="z-10 w-12 h-12 rounded-full bg-white dark:bg-background-dark border-2 border-gold flex items-center justify-center text-gold group-hover:bg-primary group-hover:border-primary group-hover:text-white transition-all duration-500 order-1 md:order-2">
-                           <span class="material-symbols-outlined">local_bar</span>
-                        </div>
-                        <div class="flex-1 text-center md:text-left order-3">
-                           <h4 class="text-xl font-serif italic text-primary">Bữa Cơm Thân Mật</h4>
-                           <p class="text-[#89616b] dark:text-gray-400 text-sm mt-1">16 giờ ngày 27-1 (Nhà Trai)</p>
-                           <p class="text-[#89616b] dark:text-gray-400 text-sm mt-1">17 giờ ngày 27-1 (Nhà Gái)</p>
-                        </div>
-                     </div>
+                <div class="relative flex flex-col md:flex-row items-center gap-4 md:gap-8 group reveal reveal-bottom md:reveal-right mt-16 md:mt-0">
+                    
+                    <div class="flex-1 hidden md:block order-1"></div>
 
-                     <div class="relative flex flex-col md:flex-row items-center gap-8 group reveal reveal-left">
-                        <div class="flex-1 text-center md:text-right">
-                           <h4 class="text-xl font-serif italic text-primary">Lễ Thành Hôn</h4>
-                           <p class="text-[#89616b] dark:text-gray-400 text-sm mt-1">10 giờ 30 ngày 28-1</p>
-                           <p class="text-sm mt-2 opacity-80">Gia Đình Họ nhà Trai</p>
+                    <div class="order-1 md:order-2 relative z-20 w-14 h-14 md:w-12 md:h-12 rounded-full bg-white dark:bg-[#181113] border border-gold flex items-center justify-center text-gold group-hover:bg-primary group-hover:border-primary group-hover:text-white transition-all duration-500">
+                        <span class="material-symbols-outlined text-2xl md:text-xl">local_bar</span>
+                    </div>
+
+                    <div class="flex-1 text-center md:text-left order-2 md:order-3 w-full md:w-auto relative z-10">
+                         <div class="inline-block bg-white dark:bg-[#181113] px-4 py-2 md:bg-transparent md:p-0">
+                            <h4 class="text-2xl md:text-xl font-serif italic text-primary">Bữa Cơm Thân Mật</h4>
+                            <div class="flex flex-col gap-1 mt-2 md:mt-1">
+                                <p class="text-[#89616b] dark:text-gray-400 text-sm font-medium">16:00 • 27/01 (Nhà Trai)</p>
+                                <p class="text-[#89616b] dark:text-gray-400 text-sm font-medium">17:00 • 27/01 (Nhà Gái)</p>
+                            </div>
                         </div>
-                        <div class="z-10 w-12 h-12 rounded-full bg-white dark:bg-background-dark border-2 border-gold flex items-center justify-center text-gold group-hover:bg-primary group-hover:border-primary group-hover:text-white transition-all duration-500">
-                           <span class="material-symbols-outlined">restaurant</span>
+                    </div>
+                </div>
+
+                <div class="relative flex flex-col md:flex-row items-center gap-4 md:gap-8 group reveal reveal-bottom md:reveal-left mt-16 md:mt-0">
+                    
+                    <div class="flex-1 text-center md:text-right order-2 md:order-1 w-full md:w-auto relative z-10">
+                         <div class="inline-block bg-white dark:bg-[#181113] px-4 py-2 md:bg-transparent md:p-0">
+                            <h4 class="text-2xl md:text-xl font-serif italic text-primary">Lễ Thành Hôn</h4>
+                            <p class="text-[#89616b] dark:text-gray-400 text-sm mt-2 md:mt-1 font-medium">10 giờ 30 • 28/01</p>
+                            <p class="text-sm mt-1 opacity-80 italic font-light">Gia Đình Họ nhà Trai</p>
                         </div>
-                        <div class="flex-1"></div>
-                     </div>
-               </div>
+                    </div>
+                    
+                    <div class="order-1 md:order-2 relative z-20 w-14 h-14 md:w-12 md:h-12 rounded-full bg-white dark:bg-[#181113] border border-gold flex items-center justify-center text-gold group-hover:bg-primary group-hover:border-primary group-hover:text-white transition-all duration-500">
+                        <span class="material-symbols-outlined text-2xl md:text-xl">restaurant</span>
+                    </div>
+                    
+                    <div class="flex-1 hidden md:block order-3"></div>
+                </div>
+
             </div>
-         </section>
+        </div>
+    </div>
+</section>
          <!-- Photo Gallery -->
          <section class="py-20 px-4" id="hinhanh">
             <div class="max-w-[1200px] mx-auto">
@@ -518,7 +543,7 @@
          <button id="music-control" class="group relative flex items-center justify-center w-12 h-12 bg-white dark:bg-background-dark border-2 border-gold rounded-full shadow-xl overflow-hidden">
             <span id="music-icon" class="material-symbols-outlined text-primary animate-spin-slow">music_note</span>
          <audio id="bg-music" loop muted autoplay>
-            <source src="nhacnen2.mp3" type="audio/mpeg">
+            <source src="nhacnen3.mp3" type="audio/mpeg">
          </audio>
 
          </button>

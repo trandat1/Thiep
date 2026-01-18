@@ -242,7 +242,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // ===== CLICK VÀO SPAN "Xem Thiệp" =====
     xemBtn.addEventListener('click', () => {
         playMusic();
-        startAutoScroll(191000);
+        startAutoScroll(259000);
     });
     // ===== NÚT BẬT/TẮT NHẠC CỦA BẠN =====
     musicBtn.addEventListener('click', () => {
@@ -264,71 +264,6 @@ document.addEventListener('DOMContentLoaded', function () {
         playMusic();
     }, { once: true });
 
-    //Menu mobile toggle
-
-    const menuButton = document.getElementById('mobile-menu-button');
-    const mobileMenu = document.getElementById('mobile-menu');
-    const menuIcon = document.getElementById('menu-icon');
-    const mobileLinks = document.querySelectorAll('.mobile-link');
-    const header = document.getElementById('header');
-
-    function updateMenuTop() {
-        // Tính height header động
-        const headerHeight = header.offsetHeight;
-        const menuContent = mobileMenu.querySelector('.relative');  // Phần content bên trong
-        if (menuContent) {
-            menuContent.style.paddingTop = `${headerHeight}px`;
-        }
-        console.log('Header height updated:', headerHeight);  // Debug
-    }
-
-    function toggleMenu() {
-        const isOpen = mobileMenu.classList.contains('open');
-        console.log('Toggle menu:', isOpen ? 'Closing' : 'Opening');  // Debug
-
-        if (!isOpen) {
-            // Mở menu
-            mobileMenu.classList.add('open');
-            menuIcon.innerText = 'close';
-            document.body.classList.add('menu-open');
-            updateMenuTop();  // Update top động
-        } else {
-            // Đóng menu
-            mobileMenu.classList.remove('open');
-            menuIcon.innerText = 'menu';
-            document.body.classList.remove('menu-open');
-            console.log('Menu closed, body unlocked');  // Debug
-        }
-    }
-
-    // Mở/đóng khi bấm nút Menu
-    menuButton.addEventListener('click', toggleMenu);
-
-    // Tự động đóng khi bấm link (và scroll đến section)
-    mobileLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();  // Ngăn default scroll jump tạm thời
-            const href = link.getAttribute('href');
-            setTimeout(() => {
-                document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
-            }, 300);  // Delay để menu đóng mượt
-            toggleMenu();  // Đóng menu
-        });
-    });
-
-    // Đóng khi click outside (trên backdrop)
-    mobileMenu.addEventListener('click', (e) => {
-        if (e.target === mobileMenu) {
-            toggleMenu();
-        }
-    });
-
-    // Update height khi resize (ví dụ: orientation change trên mobile)
-    window.addEventListener('resize', updateMenuTop);
-
-    // Khởi tạo
-    updateMenuTop();  // Set initial top
-
     // Hiệu Ứng Cuộn Hiện Dần
     const observerOptions = {
         threshold: 0.2 // Kích hoạt khi phần tử hiện ra 15%
@@ -346,7 +281,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const revealElements = document.querySelectorAll('.reveal');
     revealElements.forEach(el => observer.observe(el));
 
-    // --- LIGHTBOX CHỨC NĂNG ---
     // --- LIGHTBOX CHỨC NĂNG ---
     const lightbox = document.getElementById('lightbox-modal');
     const lightboxImg = document.getElementById('lightbox-img');
@@ -405,4 +339,92 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    //Menu 
+    // 1. KHAI BÁO CÁC ELEMENT
+    const menuButton = document.getElementById('mobile-menu-button'); // Nút Hamburger ở Header
+    const closeButton = document.getElementById('close-menu-btn');    // Nút Dấu X bên trong Menu (MỚI)
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuIcon = document.getElementById('menu-icon');
+    const mobileLinks = document.querySelectorAll('.mobile-link'); // Các link trong menu
+
+    // 3. HÀM MỞ MENU
+    function openMenu() {
+        mobileMenu.classList.remove('hidden'); // Bỏ ẩn trước
+
+        // Timeout nhỏ để trình duyệt kịp render trước khi add class animation
+        setTimeout(() => {
+            mobileMenu.classList.add('open');
+            document.body.classList.add('menu-open'); // Khóa cuộn trang
+
+            // Đổi icon hamburger thành close (nếu header nằm trên menu)
+            if (menuIcon) menuIcon.innerText = 'close';
+
+        }, 10);
+    }
+
+    // 4. HÀM ĐÓNG MENU
+    function closeMenu() {
+        mobileMenu.classList.remove('open');
+        document.body.classList.remove('menu-open');
+
+        if (menuIcon) menuIcon.innerText = 'menu';
+
+        // Tăng lên 500ms để khớp với transition: 0.5s bên CSS
+        setTimeout(() => {
+            mobileMenu.classList.add('hidden');
+        }, 500);
+    }
+
+    // 5. HÀM TOGGLE (Dùng cho nút Hamburger)
+    function toggleMenu() {
+        const isOpen = mobileMenu.classList.contains('open');
+        if (isOpen) {
+            closeMenu();
+        } else {
+            openMenu();
+        }
+    }
+
+    // --- CÁC SỰ KIỆN (EVENT LISTENERS) ---
+
+    // Sự kiện 1: Bấm nút Hamburger ở Header
+    if (menuButton) {
+        menuButton.addEventListener('click', toggleMenu);
+    }
+
+    // Sự kiện 2: Bấm nút Dấu X bên trong Menu (QUAN TRỌNG ĐỂ THOÁT)
+    if (closeButton) {
+        closeButton.addEventListener('click', closeMenu);
+    }
+
+    // Sự kiện 3: Click vào link thì đóng menu và cuộn
+    mobileLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            // Nếu là link nội bộ (có dấu #) thì mới xử lý smooth scroll
+            const href = link.getAttribute('href');
+            if (href && href.startsWith('#')) {
+                e.preventDefault();
+                closeMenu(); // Đóng menu ngay
+
+                // Đợi menu đóng xong chút rồi mới cuộn để đỡ giật
+                setTimeout(() => {
+                    const targetSection = document.querySelector(href);
+                    if (targetSection) {
+                        targetSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }, 350);
+            }
+        });
+    });
+
+    // Sự kiện 4: Click ra ngoài vùng menu (vào phần tối - backdrop) thì đóng
+    // Lưu ý: Chỉ hoạt động nếu mobileMenu phủ toàn màn hình
+    if (mobileMenu) {
+        mobileMenu.addEventListener('click', (e) => {
+            // Nếu click trực tiếp vào mobileMenu (vùng trống) chứ không phải nội dung bên trong
+            if (e.target === mobileMenu) {
+                closeMenu();
+            }
+        });
+    }
 });

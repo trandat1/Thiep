@@ -4,15 +4,49 @@ body.menu-open {
     width: 100%;
 }
 
+/* --- 1. Cấu hình khung Menu --- */
 #mobile-menu {
+    /* Dùng cubic-bezier để tạo cảm giác trượt 'đầm' tay hơn, không bị cứng */
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
     transform: translateX(100%);
-    transition: transform 0.6s ease-in-out; /* Làm menu mở chậm hơn chút */
+    opacity: 0; /* Thêm độ mờ để khi trượt vào nhìn êm hơn */
 }
 
 #mobile-menu.open {
     transform: translateX(0);
-    display: block;
+    opacity: 1;
 }
+
+/* --- 2. Hiệu ứng cho các đường Link bên trong (Quan trọng) --- */
+/* Mặc định các link sẽ ẩn và nằm thấp xuống 20px */
+.mobile-link {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s ease-out;
+}
+
+/* Khi menu mở, các link sẽ hiện lên và về vị trí cũ */
+#mobile-menu.open .mobile-link {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- 3. Tạo độ trễ (Delay) để các dòng hiện ra lần lượt --- */
+/* Dòng 1 hiện sau 0.1s, dòng 2 sau 0.2s... tạo hiệu ứng domino */
+#mobile-menu.open .mobile-link:nth-child(1) { transition-delay: 0.1s; }
+#mobile-menu.open .mobile-link:nth-child(2) { transition-delay: 0.15s; }
+#mobile-menu.open .mobile-link:nth-child(3) { transition-delay: 0.2s; }
+#mobile-menu.open .mobile-link:nth-child(4) { transition-delay: 0.25s; }
+#mobile-menu.open .mobile-link:nth-child(5) { transition-delay: 0.3s; }
+
+/* --- 4. Hiệu ứng xoay nút đóng --- */
+#close-menu-btn svg {
+    transition: transform 0.4s ease;
+}
+#close-menu-btn:hover svg {
+    transform: rotate(90deg); /* Xoay nhẹ khi rê chuột vào */
+}
+
 
 /* Fix cho iOS Safari fixed elements */
 @supports (-webkit-touch-callout: none) {
